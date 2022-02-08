@@ -20,7 +20,7 @@ namespace DataAccessLibrary.Implementations
             this.dbSet = context.Set<T>();
         }
 
-        public async Task<T> Add(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             await dbSet.AddAsync(entity);
             return entity;
@@ -33,7 +33,7 @@ namespace DataAccessLibrary.Implementations
 
         public void Delete(string id)
         {
-            T entity = Get(id).Result;
+            T entity = GetAsync(id).Result;
             if (entity == null)
             {
                 throw new Exception("Entity does not exist!!");
@@ -41,17 +41,17 @@ namespace DataAccessLibrary.Implementations
             Delete(entity);
         }
 
-        public async Task<IEnumerable<T>> ExecuteQuery(string sqlQuery)
+        public async Task<IEnumerable<T>> ExecuteQueryAsync(string sqlQuery)
         {
             return await dbSet.FromSqlRaw(sqlQuery).ToListAsync();
         }
 
-        public async Task<T> Get(string id)
+        public async Task<T> GetAsync(string id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
         }
