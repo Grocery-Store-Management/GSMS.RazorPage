@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{F23AC22E-48AB-4E04-9424-3C0C6D804733}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Business Layer", "2. Business Layer", "{803F33D8-8EB0-42EB-A1BD-F57F7DCDA12B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Access Layer", "3. Data Access Layer", "{985BF45B-E6A4-4F6D-BECC-5B3A898C0B20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Shared", "4. Shared", "{A421706A-37EE-446C-9413-4E7BE0FA7FD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjectLibrary", "BusinessObjectLibrary\BusinessObjectLibrary.csproj", "{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmsLibrary", "GsmsLibrary\GsmsLibrary.csproj", "{B5D843B5-BF84-4FD6-A88A-865B306EB461}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmsRazor", "GsmsRazor\GsmsRazor.csproj", "{13EAE82C-AEDE-42EB-9092-1BA65269450F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5D843B5-BF84-4FD6-A88A-865B306EB461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5D843B5-BF84-4FD6-A88A-865B306EB461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5D843B5-BF84-4FD6-A88A-865B306EB461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5D843B5-BF84-4FD6-A88A-865B306EB461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13EAE82C-AEDE-42EB-9092-1BA65269450F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13EAE82C-AEDE-42EB-9092-1BA65269450F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13EAE82C-AEDE-42EB-9092-1BA65269450F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13EAE82C-AEDE-42EB-9092-1BA65269450F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3} = {803F33D8-8EB0-42EB-A1BD-F57F7DCDA12B}
+		{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C} = {985BF45B-E6A4-4F6D-BECC-5B3A898C0B20}
+		{B5D843B5-BF84-4FD6-A88A-865B306EB461} = {A421706A-37EE-446C-9413-4E7BE0FA7FD1}
+		{13EAE82C-AEDE-42EB-9092-1BA65269450F} = {F23AC22E-48AB-4E04-9424-3C0C6D804733}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AB8EAB2-8A35-48E4-95B1-CBF7553940CD}
+	EndGlobalSection
+EndGlobal
