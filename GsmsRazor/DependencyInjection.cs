@@ -15,39 +15,25 @@ namespace GsmsRazor
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
             #region Repository
-            services.AddTransient<IBrandRepository, BrandRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IImportOrderDetailRepository, ImportOrderDetailRepository>();
-            services.AddTransient<IImportOrderRepository, ImportOrderRepository>();
-            services.AddTransient<IProductDetailRepository, ProductDetailRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IReceiptDetailRepository, ReceiptDetailRepository>();
-            services.AddTransient<IReceiptRepository, ReceiptRepository>();
-            services.AddTransient<IStoreRepository, StoreRepository>();
+            services.AddScoped<IGenericRepository<Brand>, GenericRepository<Brand>>();
+            services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+            services.AddScoped<IGenericRepository<Customer>, GenericRepository<Customer>>();
+            services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+            services.AddScoped<IGenericRepository<ImportOrder>, GenericRepository<ImportOrder>>();
+            services.AddScoped<IGenericRepository<ImportOrderDetail>, GenericRepository<ImportOrderDetail>>();
+            services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+            services.AddScoped<IGenericRepository<ProductDetail>, GenericRepository<ProductDetail>>();
+            services.AddScoped<IGenericRepository<Receipt>, GenericRepository<Receipt>>();
+            services.AddScoped<IGenericRepository<ReceiptDetail>, GenericRepository<ReceiptDetail>>();
+            services.AddScoped<IGenericRepository<Store>, GenericRepository<Store>>();
             #endregion
 
             #region UnitOfWork
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
             #region DbContext
             services.AddDbContext<GsmsContext>();
-            #endregion
-
-            #region BusinessEntity
-            services.AddTransient<BrandBusinessEntity>();
-            services.AddTransient<CategoryBusinessEntity>();
-            services.AddTransient<CustomerBusinessEntity>();
-            services.AddTransient<EmployeeBusinessEntity>();
-            services.AddTransient<ImportOrderBusinessEntity>();
-            services.AddTransient<ImportOrderDetailBusinessEntity>();
-            services.AddTransient<ProductBusinessEntity>();
-            services.AddTransient<ProductDetailBusinessEntity>();
-            services.AddTransient<ReceiptBusinessEntity>();
-            services.AddTransient<ReceiptDetailBusinessEntity>();
-            services.AddTransient<StoreBusinessEntity>();
             #endregion
 
             return services;

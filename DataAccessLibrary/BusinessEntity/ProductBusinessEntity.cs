@@ -12,5 +12,6 @@ namespace DataAccessLibrary.BusinessEntity
         public ProductBusinessEntity(IUnitOfWork work)
         {
             this.work = work;
-        }    }
+        }
+    }
 }

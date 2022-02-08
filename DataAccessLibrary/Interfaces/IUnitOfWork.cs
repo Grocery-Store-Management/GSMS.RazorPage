@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessObjectLibrary;
+using DataAccessLibrary.Implementations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,17 +11,17 @@ namespace DataAccessLibrary.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         #region Repositories
-        IBrandRepository Brands { get; }
-        ICategoryRepository Categories { get; }
-        ICustomerRepository Customers { get; }
-        IEmployeeRepository Employees { get; }
-        IImportOrderDetailRepository ImportOrderDetails { get; }
-        IImportOrderRepository ImportOrders { get; }
-        IProductDetailRepository ProductDetails { get; }
-        IProductRepository Products { get; }
-        IReceiptDetailRepository ReceiptDetails { get; }
-        IReceiptRepository Receipts { get; }
-        IStoreRepository Stores { get; }
+        GenericRepository<Brand> Brands { get; }
+        GenericRepository<Category> Categories { get; }
+        GenericRepository<Customer> Customers { get; }
+        GenericRepository<Employee> Employees { get; }
+        GenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
+        GenericRepository<ImportOrder> ImportOrders { get; }
+        GenericRepository<ProductDetail> ProductDetails { get; }
+        GenericRepository<Product> Products { get; }
+        GenericRepository<ReceiptDetail> ReceiptDetails { get; }
+        GenericRepository<Receipt> Receipts { get; }
+        GenericRepository<Store> Stores { get; }
         #endregion
 
         /// <summary>

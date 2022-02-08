@@ -12,5 +12,6 @@ namespace DataAccessLibrary.BusinessEntity
         public ReceiptBusinessEntity(IUnitOfWork work)
         {
             this.work = work;
-        }    }
+        }
+    }
 }

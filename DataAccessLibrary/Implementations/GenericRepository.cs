@@ -41,6 +41,11 @@ namespace DataAccessLibrary.Implementations
             Delete(entity);
         }
 
+        public async Task<IEnumerable<T>> ExecuteQuery(string sqlQuery)
+        {
+            return await dbSet.FromSqlRaw(sqlQuery).ToListAsync();
+        }
+
         public async Task<T> Get(string id)
         {
             return await dbSet.FindAsync(id);

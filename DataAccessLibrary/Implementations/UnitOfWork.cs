@@ -13,29 +13,39 @@ namespace DataAccessLibrary.Implementations
         private readonly GsmsContext context;
 
         #region Repositories
-        public IBrandRepository Brands { get; }
-        public ICategoryRepository Categories { get; }
-        public ICustomerRepository Customers { get; }
-        public IEmployeeRepository Employees { get; }
-        public IImportOrderDetailRepository ImportOrderDetails { get; }
-        public IImportOrderRepository ImportOrders { get; }
-        public IProductDetailRepository ProductDetails { get; }
-        public IProductRepository Products { get; }
-        public IReceiptDetailRepository ReceiptDetails { get; }
-        public IReceiptRepository Receipts { get; }
-        public IStoreRepository Stores { get; }
+        public GenericRepository<Brand> Brands { get; }
+        public GenericRepository<Category> Categories { get; }
+        public GenericRepository<Customer> Customers { get; }
+        public GenericRepository<Employee> Employees { get; }
+        public GenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
+        public GenericRepository<ImportOrder> ImportOrders { get; }
+        public GenericRepository<ProductDetail> ProductDetails { get; }
+        public GenericRepository<Product> Products { get; }
+        public GenericRepository<ReceiptDetail> ReceiptDetails { get; }
+        public GenericRepository<Receipt> Receipts { get; }
+        public GenericRepository<Store> Stores { get; }
         #endregion
 
+        //#region Database context
+        //public GsmsContext Context
+        //{
+        //    get
+        //    {
+        //        return this.context;
+        //    }
+        //}
+        //#endregion
+
         public UnitOfWork(GsmsContext context,
-            IBrandRepository brandRepository, ICategoryRepository categoryRepository,
-            ICustomerRepository customerRepository, IEmployeeRepository employeeRepository,
-            IImportOrderDetailRepository importOrderDetailRepository,
-            IImportOrderRepository importOrderRepository,
-            IProductDetailRepository productDetailRepository,
-            IProductRepository productRepository,
-            IReceiptDetailRepository receiptDetailRepository,
-            IReceiptRepository receiptRepository,
-            IStoreRepository storeRepository
+            GenericRepository<Brand> brandRepository, GenericRepository<Category> categoryRepository,
+            GenericRepository<Customer> customerRepository, GenericRepository<Employee> employeeRepository,
+            GenericRepository<ImportOrderDetail> importOrderDetailRepository,
+            GenericRepository<ImportOrder> importOrderRepository,
+            GenericRepository<ProductDetail> productDetailRepository,
+            GenericRepository<Product> productRepository,
+            GenericRepository<ReceiptDetail> receiptDetailRepository,
+            GenericRepository<Receipt> receiptRepository,
+            GenericRepository<Store> storeRepository
             )
         {
             this.context = context;

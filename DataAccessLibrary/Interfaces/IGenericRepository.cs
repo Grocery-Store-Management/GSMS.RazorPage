@@ -45,5 +45,12 @@ namespace DataAccessLibrary.Interfaces
         /// </summary>
         /// <param name="entity">New information of entity to be updated</param>
         void Update(T entity);
+
+        /// <summary>
+        /// Execute Query for Select Command
+        /// </summary>
+        /// <param name="sqlQuery">SELECT command to execute</param>
+        /// <returns>List of entities that satisfies the command</returns>
+        Task<IEnumerable<T>> ExecuteQuery(string sqlQuery);
     }
 }

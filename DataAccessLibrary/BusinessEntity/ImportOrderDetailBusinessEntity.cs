@@ -12,5 +12,6 @@ namespace DataAccessLibrary.BusinessEntity
         public ImportOrderDetailBusinessEntity(IUnitOfWork work)
         {
             this.work = work;
-        }    }
+        }
+    }
 }
