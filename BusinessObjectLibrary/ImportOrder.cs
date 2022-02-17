@@ -16,6 +16,7 @@ namespace BusinessObjectLibrary
         public string Name { get; set; }
         public string StoreId { get; set; }
         public bool? IsDeleted { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual Store Store { get; set; }
         public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; set; }
