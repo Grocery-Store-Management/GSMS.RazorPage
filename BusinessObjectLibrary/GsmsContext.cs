@@ -127,6 +127,8 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.OrderId).HasMaxLength(40);
 
+                entity.Property(e => e.Price).HasColumnType("money");
+
                 entity.Property(e => e.ProductId).HasMaxLength(40);
 
                 entity.HasOne(d => d.Order)
@@ -213,6 +215,10 @@ namespace BusinessObjectLibrary
                 entity.Property(e => e.Id).HasMaxLength(40);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("money");
 
                 entity.Property(e => e.ProductId).HasMaxLength(40);
 
