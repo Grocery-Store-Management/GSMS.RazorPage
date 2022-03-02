@@ -16,8 +16,8 @@ namespace BusinessObjectLibrary
         public string CustomerId { get; set; }
         public string EmployeeId { get; set; }
         public string StoreId { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public bool? IsDeleted { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }

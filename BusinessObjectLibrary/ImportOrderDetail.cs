@@ -12,9 +12,8 @@ namespace BusinessObjectLibrary
         public string Name { get; set; }
         public string Distributor { get; set; }
         public string ProductId { get; set; }
-        public int? Quantity { get; set; }
-        public bool? IsDeleted { get; set; }
-        public decimal? Price { get; set; }
+        public int Quantity { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ImportOrder Order { get; set; }
         public virtual Product Product { get; set; }

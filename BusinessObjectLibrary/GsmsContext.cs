@@ -1,5 +1,4 @@
 ﻿using System;
-using GsmsLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -18,14 +17,12 @@ namespace BusinessObjectLibrary
         {
         }
 
-        public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<ImportOrder> ImportOrders { get; set; }
         public virtual DbSet<ImportOrderDetail> ImportOrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProductDetail> ProductDetails { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
@@ -34,7 +31,8 @@ namespace BusinessObjectLibrary
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(GsmsConfiguration.ConnectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=tcp:gsms-prn.database.windows.net,1433;Initial Catalog=DB_GSMS_PRN;Persist Security Info=False;User ID=gsmsprn;Password=G$M$123456;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -42,24 +40,15 @@ namespace BusinessObjectLibrary
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Brand>(entity =>
-            {
-                entity.ToTable("Brand");
-
-                entity.Property(e => e.Id).HasMaxLength(40);
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Category");
 
                 entity.Property(e => e.Id).HasMaxLength(40);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -70,9 +59,13 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Password).HasMaxLength(50);
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(10);
+                entity.Property(e => e.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(10);
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -83,17 +76,26 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Password).HasMaxLength(50);
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Role).HasMaxLength(40);
+                entity.Property(e => e.Role)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.StoreId).HasMaxLength(40);
+                entity.Property(e => e.StoreId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Employees_Stores");
             });
 
@@ -105,13 +107,18 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.StoreId).HasMaxLength(40);
+                entity.Property(e => e.StoreId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.ImportOrders)
                     .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ImportOrder_Store");
             });
 
@@ -123,22 +130,28 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.Distributor).HasMaxLength(50);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.OrderId).HasMaxLength(40);
+                entity.Property(e => e.OrderId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.ProductId).HasMaxLength(40);
+                entity.Property(e => e.ProductId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.ImportOrderDetails)
                     .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ImportOrderDetails_ImportOrders");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ImportOrderDetails)
                     .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ImportOrderDetail_Product");
             });
 
@@ -148,34 +161,23 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.Id).HasMaxLength(40);
 
-                entity.Property(e => e.CategoryId).HasMaxLength(40);
+                entity.Property(e => e.CategoryId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.ExpiringDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("money");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Categories");
-            });
-
-            modelBuilder.Entity<ProductDetail>(entity =>
-            {
-                entity.ToTable("ProductDetail");
-
-                entity.Property(e => e.Id).HasMaxLength(40);
-
-                entity.Property(e => e.ExpiringDate).HasColumnType("datetime");
-
-                entity.Property(e => e.ManufacturingDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.ProductId).HasMaxLength(40);
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductDetails)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_ProductDetails_Products");
             });
 
             modelBuilder.Entity<Receipt>(entity =>
@@ -186,25 +188,34 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.CustomerId).HasMaxLength(40);
+                entity.Property(e => e.CustomerId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.EmployeeId).HasMaxLength(40);
+                entity.Property(e => e.EmployeeId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.StoreId).HasMaxLength(40);
+                entity.Property(e => e.StoreId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipt_Customer");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipt_Employee");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipts_Stores");
             });
 
@@ -216,22 +227,24 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.ProductId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
-                entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.ProductId).HasMaxLength(40);
-
-                entity.Property(e => e.ReceiptId).HasMaxLength(40);
+                entity.Property(e => e.ReceiptId)
+                    .IsRequired()
+                    .HasMaxLength(40);
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ReceiptDetails)
                     .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ReceiptDetail_Product");
 
                 entity.HasOne(d => d.Receipt)
                     .WithMany(p => p.ReceiptDetails)
                     .HasForeignKey(d => d.ReceiptId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ReceiptDetails_Receipts");
             });
 
@@ -241,16 +254,11 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.Id).HasMaxLength(40);
 
-                entity.Property(e => e.BrandId).HasMaxLength(40);
-
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
-
-                entity.HasOne(d => d.Brand)
-                    .WithMany(p => p.Stores)
-                    .HasForeignKey(d => d.BrandId)
-                    .HasConstraintName("FK_Stores_Brands");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
