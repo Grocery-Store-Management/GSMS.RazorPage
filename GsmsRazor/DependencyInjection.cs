@@ -14,6 +14,10 @@ namespace GsmsRazor
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
+            #region DbContext
+            services.AddDbContext<GsmsContext>();
+            #endregion
+
             #region Repository
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
             services.AddScoped<IGenericRepository<Customer>, GenericRepository<Customer>>();
@@ -30,9 +34,7 @@ namespace GsmsRazor
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
-            #region DbContext
-            services.AddDbContext<GsmsContext>();
-            #endregion
+            
 
             return services;
         }

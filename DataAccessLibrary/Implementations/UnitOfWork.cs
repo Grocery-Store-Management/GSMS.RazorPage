@@ -13,15 +13,15 @@ namespace DataAccessLibrary.Implementations
         private readonly GsmsContext context;
 
         #region Repositories
-        public GenericRepository<Category> Categories { get; }
-        public GenericRepository<Customer> Customers { get; }
-        public GenericRepository<Employee> Employees { get; }
-        public GenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
-        public GenericRepository<ImportOrder> ImportOrders { get; }
-        public GenericRepository<Product> Products { get; }
-        public GenericRepository<ReceiptDetail> ReceiptDetails { get; }
-        public GenericRepository<Receipt> Receipts { get; }
-        public GenericRepository<Store> Stores { get; }
+        public IGenericRepository<Category> Categories { get; }
+        public IGenericRepository<Customer> Customers { get; }
+        public IGenericRepository<Employee> Employees { get; }
+        public IGenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
+        public IGenericRepository<ImportOrder> ImportOrders { get; }
+        public IGenericRepository<Product> Products { get; }
+        public IGenericRepository<ReceiptDetail> ReceiptDetails { get; }
+        public IGenericRepository<Receipt> Receipts { get; }
+        public IGenericRepository<Store> Stores { get; }
         #endregion
 
         //#region Database context
@@ -35,14 +35,14 @@ namespace DataAccessLibrary.Implementations
         //#endregion
 
         public UnitOfWork(GsmsContext context,
-            GenericRepository<Category> categoryRepository,
-            GenericRepository<Customer> customerRepository, GenericRepository<Employee> employeeRepository,
-            GenericRepository<ImportOrderDetail> importOrderDetailRepository,
-            GenericRepository<ImportOrder> importOrderRepository,
-            GenericRepository<Product> productRepository,
-            GenericRepository<ReceiptDetail> receiptDetailRepository,
-            GenericRepository<Receipt> receiptRepository,
-            GenericRepository<Store> storeRepository
+            IGenericRepository<Category> categoryRepository,
+            IGenericRepository<Customer> customerRepository, IGenericRepository<Employee> employeeRepository,
+            IGenericRepository<ImportOrderDetail> importOrderDetailRepository,
+            IGenericRepository<ImportOrder> importOrderRepository,
+            IGenericRepository<Product> productRepository,
+            IGenericRepository<ReceiptDetail> receiptDetailRepository,
+            IGenericRepository<Receipt> receiptRepository,
+            IGenericRepository<Store> storeRepository
             )
         {
             this.context = context;
