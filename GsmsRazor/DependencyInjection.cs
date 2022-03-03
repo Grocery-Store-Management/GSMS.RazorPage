@@ -15,14 +15,12 @@ namespace GsmsRazor
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
             #region Repository
-            services.AddScoped<IGenericRepository<Brand>, GenericRepository<Brand>>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
             services.AddScoped<IGenericRepository<Customer>, GenericRepository<Customer>>();
             services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             services.AddScoped<IGenericRepository<ImportOrder>, GenericRepository<ImportOrder>>();
             services.AddScoped<IGenericRepository<ImportOrderDetail>, GenericRepository<ImportOrderDetail>>();
             services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
-            services.AddScoped<IGenericRepository<ProductDetail>, GenericRepository<ProductDetail>>();
             services.AddScoped<IGenericRepository<Receipt>, GenericRepository<Receipt>>();
             services.AddScoped<IGenericRepository<ReceiptDetail>, GenericRepository<ReceiptDetail>>();
             services.AddScoped<IGenericRepository<Store>, GenericRepository<Store>>();

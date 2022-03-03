@@ -13,13 +13,11 @@ namespace DataAccessLibrary.Implementations
         private readonly GsmsContext context;
 
         #region Repositories
-        public GenericRepository<Brand> Brands { get; }
         public GenericRepository<Category> Categories { get; }
         public GenericRepository<Customer> Customers { get; }
         public GenericRepository<Employee> Employees { get; }
         public GenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
         public GenericRepository<ImportOrder> ImportOrders { get; }
-        public GenericRepository<ProductDetail> ProductDetails { get; }
         public GenericRepository<Product> Products { get; }
         public GenericRepository<ReceiptDetail> ReceiptDetails { get; }
         public GenericRepository<Receipt> Receipts { get; }
@@ -37,11 +35,10 @@ namespace DataAccessLibrary.Implementations
         //#endregion
 
         public UnitOfWork(GsmsContext context,
-            GenericRepository<Brand> brandRepository, GenericRepository<Category> categoryRepository,
+            GenericRepository<Category> categoryRepository,
             GenericRepository<Customer> customerRepository, GenericRepository<Employee> employeeRepository,
             GenericRepository<ImportOrderDetail> importOrderDetailRepository,
             GenericRepository<ImportOrder> importOrderRepository,
-            GenericRepository<ProductDetail> productDetailRepository,
             GenericRepository<Product> productRepository,
             GenericRepository<ReceiptDetail> receiptDetailRepository,
             GenericRepository<Receipt> receiptRepository,
@@ -49,13 +46,11 @@ namespace DataAccessLibrary.Implementations
             )
         {
             this.context = context;
-            this.Brands = brandRepository;
             this.Categories = categoryRepository;
             this.Customers = customerRepository;
             this.Employees = employeeRepository;
             this.ImportOrderDetails = importOrderDetailRepository;
             this.ImportOrders = importOrderRepository;
-            this.ProductDetails = productDetailRepository;
             this.Products = productRepository;
             this.ReceiptDetails = receiptDetailRepository;
             this.Receipts = receiptRepository;

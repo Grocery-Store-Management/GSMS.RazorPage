@@ -11,13 +11,11 @@ namespace DataAccessLibrary.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         #region Repositories
-        GenericRepository<Brand> Brands { get; }
         GenericRepository<Category> Categories { get; }
         GenericRepository<Customer> Customers { get; }
         GenericRepository<Employee> Employees { get; }
         GenericRepository<ImportOrderDetail> ImportOrderDetails { get; }
         GenericRepository<ImportOrder> ImportOrders { get; }
-        GenericRepository<ProductDetail> ProductDetails { get; }
         GenericRepository<Product> Products { get; }
         GenericRepository<ReceiptDetail> ReceiptDetails { get; }
         GenericRepository<Receipt> Receipts { get; }
