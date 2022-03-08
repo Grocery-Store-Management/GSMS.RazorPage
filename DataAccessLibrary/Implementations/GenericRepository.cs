@@ -1,11 +1,9 @@
 ﻿using BusinessObjectLibrary;
+using DataAccessLibrary.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DataAccessLibrary.Interfaces;
 
 namespace DataAccessLibrary.Implementations
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -31,8 +29,7 @@ namespace BusinessObjectLibrary
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:gsms-prn.database.windows.net,1433;Initial Catalog=DB_GSMS_PRN;Persist Security Info=False;User ID=gsmsprn;Password=G$M$123456;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer();
             }
         }
 
@@ -138,6 +135,8 @@ namespace BusinessObjectLibrary
                     .IsRequired()
                     .HasMaxLength(40);
 
+                entity.Property(e => e.Price).HasColumnType("money");
+
                 entity.Property(e => e.ProductId)
                     .IsRequired()
                     .HasMaxLength(40);
@@ -146,7 +145,7 @@ namespace BusinessObjectLibrary
                     .WithMany(p => p.ImportOrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ImportOrderDetails_ImportOrders");
+                    .HasConstraintName("FK_ImportOrderDetail_ImportOrder");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ImportOrderDetails)
@@ -226,6 +225,12 @@ namespace BusinessObjectLibrary
                 entity.Property(e => e.Id).HasMaxLength(40);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("money");
 
                 entity.Property(e => e.ProductId)
                     .IsRequired()
