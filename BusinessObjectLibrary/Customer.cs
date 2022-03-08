@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,6 +15,10 @@ namespace BusinessObjectLibrary
 
         public string Id { get; set; }
         public int Point { get; set; }
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone number")]
+        [RegularExpression("$[0-9]{8,12}^", ErrorMessage ="Valid phone numbers are from 8 to 12 numbers only")]
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public DateTime CreatedDate { get; set; }
