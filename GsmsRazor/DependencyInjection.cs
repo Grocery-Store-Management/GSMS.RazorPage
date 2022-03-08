@@ -1,21 +1,22 @@
 ﻿using BusinessObjectLibrary;
-using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Implementations;
 using DataAccessLibrary.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GsmsRazor
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddRepository(this IServiceCollection services)
+        public static IServiceCollection AddRepository(this IServiceCollection services, IConfiguration configuration)
         {
             #region DbContext
-            services.AddDbContext<GsmsContext>();
+            services.AddDbContext<GsmsContext>(options =>
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("GsmsDb"));
+                }
+            );
             #endregion
 
             #region Repository
@@ -34,7 +35,7 @@ namespace GsmsRazor
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
-            
+
 
             return services;
         }
