@@ -1,4 +1,5 @@
-﻿using DataAccessLibrary.Interfaces;
+﻿using BusinessObjectLibrary;
+using DataAccessLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace DataAccessLibrary.BusinessEntity
         public CustomerBusinessEntity(IUnitOfWork work)
         {
             this.work = work;
+        }
+
+        public async Task<Customer> AddAsync(Customer customer)
+        {
+            await work.Customers.AddAsync(customer);
+            await work.Save();
+            return customer;
         }
     }
 }

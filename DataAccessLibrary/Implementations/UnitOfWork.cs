@@ -71,9 +71,9 @@ namespace DataAccessLibrary.Implementations
             }
         }
 
-        public int Save()
+        public async Task<int> Save()
         {
-            return context.SaveChanges();
+            return await context.SaveChangesAsync();
         }
     }
 }
