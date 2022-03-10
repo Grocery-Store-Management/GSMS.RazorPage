@@ -12,6 +12,7 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#customerModal">
         Register customer
     </button>
+    <div class="text-danger">@TempData["RegError"]</div>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row ">
         <div class="col-md-4 offset-md-4 modal fade in" id="customerModal" data-backdrop="static" data-keyboard="false">
