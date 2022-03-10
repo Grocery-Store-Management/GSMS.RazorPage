@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{F23AC22E-48AB-4E04-9424-3C0C6D804733}"
 EndProject
@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Access Layer", "3. 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Shared", "4. Shared", "{A421706A-37EE-446C-9413-4E7BE0FA7FD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjectLibrary", "BusinessObjectLibrary\BusinessObjectLibrary.csproj", "{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectLibrary", "BusinessObjectLibrary\BusinessObjectLibrary.csproj", "{3EDF9A31-CEC5-40B7-BBFF-14ACAF8191D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{BA62E545-DF8C-4D7E-8BF8-696C8B5B374C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmsLibrary", "GsmsLibrary\GsmsLibrary.csproj", "{B5D843B5-BF84-4FD6-A88A-865B306EB461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GsmsLibrary", "GsmsLibrary\GsmsLibrary.csproj", "{B5D843B5-BF84-4FD6-A88A-865B306EB461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmsRazor", "GsmsRazor\GsmsRazor.csproj", "{13EAE82C-AEDE-42EB-9092-1BA65269450F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GsmsRazor", "GsmsRazor\GsmsRazor.csproj", "{13EAE82C-AEDE-42EB-9092-1BA65269450F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

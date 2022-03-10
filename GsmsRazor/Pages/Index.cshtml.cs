@@ -36,15 +36,12 @@ namespace GsmsRazor.Pages
         {
             if (!ModelState.IsValid)
             {
+                TempData["RegError"] = "These problems occured while trying to register: ";
                 return Page();
             }
 
             Customer.Id = new Guid().ToString();
             Customer.CreatedDate = DateTime.Now;
-
-            Debug.WriteLine(Customer);
-            Debug.WriteLine("owo");
-
 
             await _entity.AddAsync(Customer);
             return RedirectToPage("./Index");

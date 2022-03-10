@@ -15,15 +15,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectLibrary\BusinessObjectLibrary.csproj" />
     <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Test\" />
   </ItemGroup>
 
 </Project>
