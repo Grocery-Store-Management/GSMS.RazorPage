@@ -15,8 +15,9 @@ namespace GsmsRazor.Pages
             return Page();
         }
 
-        public IActionResult OnPost(string qrText)
+        public IActionResult OnPost(int points)
         {
+            string qrText = $"{{\"createdDate\":\"Mar 3, 2022 16:09:43\",\"id\":\"6f147985-f73f-4f54-887c-d356eca77203\",\"isDeleted\":false,\"password\":\"12345678\",\"phoneNumber\":\"0978665441\",\"point\":\"{points}\"}}";
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrText,
             QRCodeGenerator.ECCLevel.Q);

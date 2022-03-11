@@ -2,47 +2,49 @@
 @model GsmsRazor.Pages.QRModel
 @{
     <!DOCTYPE html>
-<html>
+    <html>
 
-<head>
-  <meta name="viewport" content="width=device-width" />
-  <title>Implementing QRCoder in ASP.NET Core - Create QR Code</title>
-</head>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Implementing QRCoder in ASP.NET Core - Create QR Code</title>
+    </head>
 
-<body>
-  <div class="container">
-    <div id="content">
-      <div id="viewContent">
-        @using (Html.BeginForm(null, null, FormMethod.Post)) {
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label>Enter text for creating QR Code</label>
-                </td>
-                <td>
-                  <input type="text" name="qrText" />
-                </td>
-              </tr>
-              <tr>
-           <td colspan="2">
-                  <button>Submit</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        }
-      </div>
-      
-      @{
-        if (ViewBag.encodedBytes != null)
-        {
-          <h3>QR Code Successfully Generated</h3>
-          <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)" />
-        }
-      }
-    </div>
-  </div>
-</body>
-</html>
+    <body>
+        <div class="container">
+            <div id="content">
+                <div id="viewContent">
+                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                    {
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label>Enter text for creating QR Code</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="points" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button>Submit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+
+                @{
+                    if (ViewBag.encodedBytes != null)
+                    {
+                        <h3>QR Code Successfully Generated</h3>
+                        <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
+                         style="max-height:60vh;max-width:60vw;" />
+                    }
+                }
+            </div>
+        </div>
+    </body>
+    </html>
 }
