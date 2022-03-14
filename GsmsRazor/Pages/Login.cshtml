@@ -1,0 +1,41 @@
+﻿@page "/"
+@model GsmsRazor.Pages.LoginModel
+@{
+}
+<link rel="stylesheet" href="./css/Login.cshtml.css" />
+
+<div class="col-md-12 p-2 d-flex justify-content-center">
+    <div class="col col-md-4 p-2">
+        <div class="col-md-12 text-lg-center mb-3">Login via</div>
+        <div class="social-buttons col-md-12 text-lg-center">
+            <a href="#" class="btn btn-gg pl-lg-4 pr-lg-4 mr-3">
+                <i class="fa-brands fa-google"></i> Google
+            </a>
+            <a href="#" class="btn btn-fb pl-lg-4 pr-lg-4 mr-3">
+                <i class="fa-brands fa-facebook"></i> Facebook
+            </a>
+            <a href="#" class="btn btn-gh pl-lg-4 pr-lg-4">
+                <i class="fa-brands fa-github"></i> Github
+            </a>
+        </div>
+        <div class="col-md-12 text-lg-center mt-3 mb-3">or</div>
+        <form class="form" method="post" asp-page="Login" accept-charset="UTF-8">
+            <div class="form-group">
+                <label class="sr-only" asp-for="@Model.Username">Username</label>
+                <input type="text" asp-for="@Model.Username" class="form-control" placeholder="Username">
+                <span class="text-danger" asp-validation-for="@Model.Username"></span>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" asp-for="@Model.Password">Password</label>
+                <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
+                <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                <!--
+                <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                -->
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+            </div>
+        </form>
+    </div>
+</div>
