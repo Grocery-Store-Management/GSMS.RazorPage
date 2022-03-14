@@ -6,14 +6,16 @@
     <title>@ViewData["Title"] - GsmsRazor</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />
 </head>
 <body>
-
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -22,8 +24,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between mr-sm-2">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
@@ -39,7 +41,8 @@
         </nav>
     </header>
     <div class="container col col-md-12">
-        <div class="row">
+        <div class="row d-flex justify-content-center">
+            <!--
             <div class="col col-md-3" style="max-width:40vw;max-height:60vh;overflow: auto;">
                 <ul id="dashboard" class="list-group">
                 </ul>
@@ -51,8 +54,8 @@
                         </form>
                     </li>
                 </ul>
-
             </div>
+            -->
             <div class="col col-md-9">
                 <main role="main" class="pb-3">
                     @RenderBody()
