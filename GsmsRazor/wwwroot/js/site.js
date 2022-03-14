@@ -19,7 +19,7 @@
                 $.each(result, (k, v) => {
                     li += `<li class="list-group-item col-col-md-6">
                     <form class="row" onsubmit="return deleteNote(event)">
-                        <input type="hidden" value=${v.id}/>
+                        <input type="hidden" value=${v.id} />
                         <div class="col col-md-6">
                             ${v.senderId} says: ${v.content}
                         </div>

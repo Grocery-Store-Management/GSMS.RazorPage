@@ -74,7 +74,7 @@ namespace GsmsRazor.Pages
             firebaseClient = new FirebaseClient(config);
             var res = await firebaseClient.GetAsync("notes");
             List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
-            int delIndex = jArray.FindIndex(n => n != null && n.id == noteId);
+            int delIndex = jArray.FindIndex(n => n != null && n.id.Equals(noteId));
             return await firebaseClient.DeleteAsync("notes/" + delIndex);
         }
 
@@ -94,10 +94,12 @@ namespace GsmsRazor.Pages
         {
             if (content == null)
             {
+                await _hub.ReloadNotes();
                 return new JsonResult("");
             }
             if (content.Trim().Length == 0)
             {
+                await _hub.ReloadNotes();
                 return new JsonResult("");
             }
             Note noteToBeAdded = new Note();
