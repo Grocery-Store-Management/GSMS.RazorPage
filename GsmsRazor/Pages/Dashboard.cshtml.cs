@@ -45,7 +45,7 @@ namespace GsmsRazor.Pages
         };
         IFirebaseClient firebaseClient;
 
-        public async Task<List<Note>> getNotesAsync()
+        public async Task<IEnumerable<Note>> getNotesAsync()
         {
             firebaseClient = new FirebaseClient(config);
             var res = await firebaseClient.GetAsync("notes");
@@ -68,12 +68,16 @@ namespace GsmsRazor.Pages
 
         public async Task<FireSharp.Response.FirebaseResponse> addNotesAsync(Note note)
         {
-            List<Note> jArray = await getNotesAsync();
+            firebaseClient = new FirebaseClient(config);
+            var res = await firebaseClient.GetAsync("notes");
+            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
             return await firebaseClient.SetAsync<Note>("notes/" + jArray.Count, note);
         }
         public async Task<FireSharp.Response.FirebaseResponse> removeNotesAsync(string noteId)
         {
-            List<Note> jArray = await getNotesAsync();
+            firebaseClient = new FirebaseClient(config);
+            var res = await firebaseClient.GetAsync("notes");
+            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
             int delIndex = jArray.FindIndex(n => n != null && n.id.Equals(noteId));
             return await firebaseClient.DeleteAsync("notes/" + delIndex);
         }
