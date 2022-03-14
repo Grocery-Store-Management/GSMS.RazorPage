@@ -20,6 +20,8 @@ namespace GsmsRazor
         {
             services.AddRepository(Configuration);
             services.AddRazorPages();
+            services.AddSignalR();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +48,7 @@ namespace GsmsRazor
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<SignalRHub>("/signalRHub");
             });
         }
     }

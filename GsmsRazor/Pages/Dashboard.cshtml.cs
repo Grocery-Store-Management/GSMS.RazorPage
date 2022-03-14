@@ -3,10 +3,13 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace GsmsRazor.Pages
 {
@@ -23,10 +26,18 @@ namespace GsmsRazor.Pages
             this.content = content;
         }
 
+        public Note() { }
+
 
     }
     public class DashboardModel : PageModel
     {
+        public IEnumerable<Note> notes;
+        private SignalRHub _hub;
+        public DashboardModel(IHubContext<SignalRHub> contextR)
+        {
+            _hub = new SignalRHub(contextR);
+        }
         IFirebaseConfig config = new FirebaseConfig
         {
             AuthSecret = "nlruRTC3Ji4w3bdoPU4UDbqA1tzy7OOAhCfRLgGI",
@@ -34,11 +45,12 @@ namespace GsmsRazor.Pages
         };
         IFirebaseClient firebaseClient;
 
-        public IEnumerable<Note> getNotes()
+        public async Task<IEnumerable<Note>> getNotesAsync()
         {
             firebaseClient = new FirebaseClient(config);
-            var res = firebaseClient.Get("notes");
+            var res = await firebaseClient.GetAsync("notes");
             List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+            Debug.WriteLine(res.Body);
             var list = new List<Note>();
             foreach (var note in jArray)
             {
@@ -49,10 +61,58 @@ namespace GsmsRazor.Pages
             }
             return list;
         }
-        public IActionResult OnGet()
+
+        public async Task<FireSharp.Response.FirebaseResponse> addNotesAsync(Note note)
         {
-            getNotes();
+            firebaseClient = new FirebaseClient(config);
+            var res = await firebaseClient.GetAsync("notes");
+            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+            return await firebaseClient.SetAsync<Note>("notes/" + jArray.Count, note);
+        }
+        public async Task<FireSharp.Response.FirebaseResponse> removeNotesAsync(string noteId)
+        {
+            firebaseClient = new FirebaseClient(config);
+            var res = await firebaseClient.GetAsync("notes");
+            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+            int delIndex = jArray.FindIndex(n => n != null && n.id == noteId);
+            return await firebaseClient.DeleteAsync("notes/" + delIndex);
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            notes = await getNotesAsync();
             return Page();
+        }
+
+        public async Task<IActionResult> OnGetLoadNotes()
+        {
+            notes = await getNotesAsync();
+            return new JsonResult(notes);
+        }
+
+        public async Task<IActionResult> OnPostAddNote(string content)
+        {
+            if (content == null)
+            {
+                return new JsonResult("");
+            }
+            if (content.Trim().Length == 0)
+            {
+                return new JsonResult("");
+            }
+            Note noteToBeAdded = new Note();
+            noteToBeAdded.id = Guid.NewGuid().ToString();
+            noteToBeAdded.senderId = "asdasd";
+            noteToBeAdded.content = content;
+            await addNotesAsync(noteToBeAdded);
+            await _hub.ReloadNotes();
+            return new JsonResult("");
+        }
+
+        public async void OnPostRemoveNote(string noteId)
+        {
+            await removeNotesAsync(noteId);
+            await _hub.ReloadNotes();
         }
     }
 }
