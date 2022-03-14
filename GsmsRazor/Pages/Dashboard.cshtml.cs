@@ -45,35 +45,35 @@ namespace GsmsRazor.Pages
         };
         IFirebaseClient firebaseClient;
 
-        public async Task<IEnumerable<Note>> getNotesAsync()
+        public async Task<List<Note>> getNotesAsync()
         {
             firebaseClient = new FirebaseClient(config);
             var res = await firebaseClient.GetAsync("notes");
-            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
-            Debug.WriteLine(res.Body);
-            var list = new List<Note>();
-            foreach (var note in jArray)
+            if (res.Body.Length > 0)
             {
-                if (note != null)
+                List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+                jArray.RemoveAt(1);
+                var list = new List<Note>();
+                foreach (var note in jArray)
                 {
-                    list.Add(note);
+                    if (note != null)
+                    {
+                        list.Add(note);
+                    }
                 }
+                return list;
             }
-            return list;
+            return null;
         }
 
         public async Task<FireSharp.Response.FirebaseResponse> addNotesAsync(Note note)
         {
-            firebaseClient = new FirebaseClient(config);
-            var res = await firebaseClient.GetAsync("notes");
-            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+            List<Note> jArray = await getNotesAsync();
             return await firebaseClient.SetAsync<Note>("notes/" + jArray.Count, note);
         }
         public async Task<FireSharp.Response.FirebaseResponse> removeNotesAsync(string noteId)
         {
-            firebaseClient = new FirebaseClient(config);
-            var res = await firebaseClient.GetAsync("notes");
-            List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
+            List<Note> jArray = await getNotesAsync();
             int delIndex = jArray.FindIndex(n => n != null && n.id.Equals(noteId));
             return await firebaseClient.DeleteAsync("notes/" + delIndex);
         }
