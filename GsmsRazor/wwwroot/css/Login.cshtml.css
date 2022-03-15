@@ -1,0 +1,51 @@
+﻿body {
+}
+
+.btn-fb {
+    color: #fff;
+    background-color: #3b5998;
+    transition: .3s;
+}
+
+.btn-fb:hover {
+    color: #fff;
+    background-color: #496ebc;
+}
+
+.btn-gg {
+    color: #fff;
+    background-color: #55acee;
+    transition: .3s;
+}
+
+.btn-gg:hover {
+    color: #fff;
+    background-color: #59b5fa;
+}
+
+.btn-gh {
+    color: #fff;
+    background-color: #000;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    transition: .3s;
+}
+
+.btn-gh:hover {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+#login-dp .social-buttons {
+    margin: 12px 0;
+}
+
+#login-dp .social-buttons a {
+    width: 49%;
+}
+
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
