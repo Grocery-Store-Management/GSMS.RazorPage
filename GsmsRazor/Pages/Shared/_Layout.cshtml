@@ -10,6 +10,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </head>
 <body>
@@ -67,6 +69,7 @@
         </div>
     </footer>
     @await RenderSectionAsync("Scripts", required: false)
+
     <script type="text/javascript">
             function addNote(event){
                 event.preventDefault();

@@ -8,8 +8,13 @@
         LoadNotesData();
     })
 
+    connection.on("reloadPage", function () {
+        LoadIndex();
+    })
+
 
     function LoadNotesData() {
+
         $("#btnPost").prop('disabled', true);
         var li = '';
         $.ajax({
@@ -33,6 +38,15 @@
                 console.log(error)
             }
         });
+    }
+
+    function LoadIndex() {
+        toastr.options.showEasing = 'swing';
+        toastr.success('Points updated!', "Success");
+
+        setTimeout(() => {
+            window.location.replace("/")
+        }, 1500);
     }
 
 })

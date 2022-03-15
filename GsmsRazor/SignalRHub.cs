@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace GsmsRazor
@@ -14,6 +16,10 @@ namespace GsmsRazor
         public async Task ReloadNotes()
         {
             await _context.Clients.All.SendAsync("reloadNotes");
+        }
+        public async Task ReloadPage()
+        {
+            await _context.Clients.All.SendAsync("reloadPage");
         }
     }
 }
