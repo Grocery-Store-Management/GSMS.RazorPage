@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 namespace GsmsRazor.Pages
 {
@@ -54,10 +55,11 @@ namespace GsmsRazor.Pages
         {
             firebaseClient = new FirebaseClient(config);
             var res = await firebaseClient.GetAsync("notes");
+            Debug.WriteLine(res.Body);
             if (res.Body.Length > 0)
             {
                 List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
-                jArray.RemoveAt(1);
+                jArray.RemoveAt(0);
                 var list = new List<Note>();
                 foreach (var note in jArray)
                 {
@@ -83,8 +85,8 @@ namespace GsmsRazor.Pages
             firebaseClient = new FirebaseClient(config);
             var res = await firebaseClient.GetAsync("notes");
             List<Note> jArray = JsonConvert.DeserializeObject<List<Note>>(res.Body);
-            int delIndex = jArray.FindIndex(n => n != null && n.id.Equals(noteId));
-            return await firebaseClient.DeleteAsync("notes/" + delIndex);
+            var newArray = jArray.ToArray().Where(n => n != null && !n.id.Equals(noteId)).ToArray();
+            return await firebaseClient.SetAsync("notes", newArray);
         }
 
         public async Task<IActionResult> OnGet()

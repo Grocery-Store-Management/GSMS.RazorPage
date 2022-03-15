@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,8 +8,8 @@
     <title>@ViewData["Title"] - GsmsRazor</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
-          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -46,21 +48,26 @@
         </nav>
     </header>
     <div class="container col col-md-12">
+        @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+        {
+            <button id="btnShow" class="btn btn-primary" onclick="return toggleNotes()">Show Notes</button>
+        }
         <div class="row d-flex justify-content-center">
-            <!--
-            <div class="col col-md-3" style="max-width:40vw;max-height:60vh;overflow: auto;">
-                <ul id="dashboard" class="list-group">
-                </ul>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <form method="post" class="row" onsubmit="return addNote(event)">
-                            <input name="content" type="text" class="col col-md-6" />
-                            <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            -->
+            @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+            {
+                <div id="notesDiv" class="col col-md-3" style="max-width:40vw;max-height:60vh;overflow: auto; visibility: hidden">
+                    <ul id="dashboard" class="list-group">
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <form method="post" class="row" onsubmit="return addNote(event)">
+                                <input name="content" type="text" class="col col-md-6" />
+                                <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            }
             <div class="col col-md-9">
                 <main role="main" class="pb-3">
                     @RenderBody()
@@ -77,6 +84,13 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
+        function toggleNotes(){
+            if($("#notesDiv").css("visibility") == "hidden"){
+                $("#notesDiv").css("visibility", "visible")
+            }else{
+                $("#notesDiv").css("visibility", "hidden")
+            }
+        }
             function addNote(event){
                 event.preventDefault();
         $("#btnPost").prop('disabled', true);
