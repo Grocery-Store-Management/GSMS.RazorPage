@@ -26,6 +26,7 @@ namespace GsmsRazor.Pages
     {
         private readonly ProductBusinessEntity _productEntity;
         private readonly ReceiptBusinessEntity _receiptEntity;
+        private readonly CustomerBusinessEntity _customerEntity;
         private SignalRHub _hub;
         private const int pageSize = 3;
 
@@ -33,14 +34,34 @@ namespace GsmsRazor.Pages
         {
             _productEntity = new ProductBusinessEntity(work);
             _receiptEntity = new ReceiptBusinessEntity(work);
+            _customerEntity = new CustomerBusinessEntity(work);
             _hub = new SignalRHub(contextR);
+        }
+
+
+        [BindProperty]
+        public Customer Customer { get; set; }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["RegError"] = "These problems occured while trying to register: ";
+                return Page();
+            }
+
+            Customer.Id = new Guid().ToString();
+            Customer.CreatedDate = DateTime.Now;
+
+            await _customerEntity.AddAsync(Customer);
+            return RedirectToPage("./Index");
         }
 
         [BindProperty]
         public IEnumerable<Product> ProductList { get; set; }
 
         public async Task<IActionResult> OnGet(
-            string searchString, 
+            string searchString,
             int? pageIndex)
         {
             if (!pageIndex.HasValue)
@@ -59,10 +80,10 @@ namespace GsmsRazor.Pages
             //Calculate total price
             List<CartItem> cart = null;
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
-            if(cart != null)
+            if (cart != null)
             {
                 decimal totalPrice = 0;
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     totalPrice += item.Quantity * item.Price;
                 }
@@ -126,7 +147,7 @@ namespace GsmsRazor.Pages
                     HttpContext.Session.SetData("CART", cart);
                 }
             }
-            
+
             return new JsonResult(cart);
         }
 
@@ -134,9 +155,9 @@ namespace GsmsRazor.Pages
         {
             List<CartItem> cart = null;
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
-            if(cart != null)
+            if (cart != null)
             {
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     if (item.ProductId.Equals(productId))
                     {
@@ -155,7 +176,7 @@ namespace GsmsRazor.Pages
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
             if (!string.IsNullOrEmpty(productId))
             {
-                if(cart != null)
+                if (cart != null)
                 {
                     foreach (CartItem item in cart)
                     {
@@ -167,7 +188,7 @@ namespace GsmsRazor.Pages
                     }
                     HttpContext.Session.SetData("CART", cart);
                 }
-               
+
             }
             return new JsonResult(cart);
         }
@@ -191,10 +212,10 @@ namespace GsmsRazor.Pages
             //Save Receipt
             try
             {
-                if(cart != null)
+                if (cart != null)
                 {
                     List<ReceiptDetail> receiptDetails = new List<ReceiptDetail>();
-                    foreach(CartItem item in cart)
+                    foreach (CartItem item in cart)
                     {
                         receiptDetails.Add(new ReceiptDetail
                         {
@@ -216,7 +237,8 @@ namespace GsmsRazor.Pages
                     };
                     addedReceipt = await _receiptEntity.AddReceiptAsync(receipt);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
                 return Page();
@@ -225,10 +247,10 @@ namespace GsmsRazor.Pages
             //Calculate points
             decimal totalPrice = 0;
             int points;
-            
+
             if (cart != null)
             {
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     totalPrice += item.Price * item.Quantity;
                 }

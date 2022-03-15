@@ -1,6 +1,8 @@
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
+using GSMS.API.PRM;
+using GSMS.API.PRM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,9 +42,12 @@ namespace GsmsRazor.Pages
     {
         public IEnumerable<Note> notes;
         private SignalRHub _hub;
-        public DashboardModel(IHubContext<SignalRHub> contextR)
+        private readonly INotificationService _notificationService;
+        public DashboardModel(IHubContext<SignalRHub> contextR, INotificationService notificationService)
         {
             _hub = new SignalRHub(contextR);
+            _notificationService = notificationService;
+
         }
         IFirebaseConfig config = new FirebaseConfig
         {
@@ -119,9 +124,18 @@ namespace GsmsRazor.Pages
             noteToBeAdded.senderId = HttpContext.Session.GetString("UID");
             noteToBeAdded.senderName = HttpContext.Session.GetString("NAME");
             noteToBeAdded.content = content;
+            NotificationModel noti = new NotificationModel();
+            noti.DeviceId = "crY1ZWBBTFad7iE5BSPnOY:APA91bHWbVkQxBMN182wqZP8tB7opaZHt1DxyDX9CSEhcDQRyK1jNKrGk9KPnhjoQ6DYI-wNhj4aGZwVnk5ghWwV33ywB8FvFD4lhcMewk9clQ0yTEHo0b6E52LWBiTKOaEej6WGq77g";
+            noti.Title = "Message";
+            noti.Body = noteToBeAdded.senderName + " said: " + noteToBeAdded.content;
+
+            noti.IsAndroiodDevice = true;
+            ResponseModel res = await _notificationService.SendNotification(noti);
+            Debug.WriteLine(res.ToString());
+
             await addNotesAsync(noteToBeAdded);
             await _hub.ReloadNotes();
-            return new JsonResult("");
+            return new JsonResult(res.Message);
         }
 
         public async void OnPostRemoveNote(string noteId)

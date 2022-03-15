@@ -30,18 +30,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between mr-sm-2">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/QR">QR</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

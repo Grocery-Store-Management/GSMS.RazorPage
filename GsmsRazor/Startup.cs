@@ -1,3 +1,6 @@
+using CorePush.Apple;
+using CorePush.Google;
+using GSMS.API.PRM;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +24,11 @@ namespace GsmsRazor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+            var appSettingsSection = Configuration.GetSection("FcmNotification");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors();
             services.AddRepository(Configuration);
@@ -28,7 +36,8 @@ namespace GsmsRazor
             services.AddSignalR();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             //session
-            services.AddSession(o => {
+            services.AddSession(o =>
+            {
                 o.IdleTimeout = TimeSpan.FromMinutes(1);
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
@@ -48,7 +57,8 @@ namespace GsmsRazor
                 app.UseHsts();
             }
 
-            app.UseCors(options => {
+            app.UseCors(options =>
+            {
                 options.WithOrigins("*").AllowAnyMethod();
             });
 
