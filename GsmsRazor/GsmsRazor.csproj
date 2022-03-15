@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\Login.cshtml.css" />
+    <None Include="wwwroot\css\Login.css" />
   </ItemGroup>
 
   <ItemGroup>
