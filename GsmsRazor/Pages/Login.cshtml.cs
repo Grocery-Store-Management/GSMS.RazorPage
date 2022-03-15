@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BusinessObjectLibrary;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -37,33 +38,78 @@ namespace GsmsRazor.Pages
         }
         public async Task<IActionResult> OnPost()
         {
-            //    Employee _account = _context.Employees.SingleOrDefault(m => m.Id == Username && m.Password == Password);
+            Console.WriteLine(Username);
+            Customer _cus = _context.Customers
+                .SingleOrDefault(c => c.PhoneNumber == Username && c.Password == Password);
 
-            //    if (_account != null)
-            //    {
-            //        var claims = new List<Claim>
-            //            {
-            //                new Claim(ClaimTypes.Role, "Staff"),
-            //            };
+            if (_cus != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Role, "Customer"),
+                    new Claim(ClaimTypes.NameIdentifier, _cus.Id),
+                };
 
-            //        var claimsIdentity = new ClaimsIdentity(
-            //            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            //        var authProperties = new AuthenticationProperties
-            //        {
-            //            IsPersistent = true
-            //        };
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true
+                };
 
-            //        await HttpContext.SignInAsync(
-            //            CookieAuthenticationDefaults.AuthenticationScheme,
-            //            new ClaimsPrincipal(claimsIdentity),
-            //            authProperties);
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
 
-            //        return RedirectToPage("./Index");
-            //    }
+                // Session variables
+                HttpContext.Session.SetString("UID", _cus.Id);
+                HttpContext.Session.SetString("PHONE", _cus.PhoneNumber);
+                HttpContext.Session.SetString("ROLE", "Customer");
 
-            //    return Page();
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Dashboard");
+            }
+            else
+            {
+                Employee _emp = _context.Employees
+                    .SingleOrDefault(e => e.Name == Username && e.Password == Password);
+                if (_emp != null)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Role, "Employee"),
+                        new Claim(ClaimTypes.NameIdentifier, _emp.Id)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+
+                    // Session variables
+                    HttpContext.Session.SetString("UID", _emp.Id);
+                    HttpContext.Session.SetString("NAME", _emp.Name);
+                    HttpContext.Session.SetString("STORE_ID", _emp.StoreId);
+                    HttpContext.Session.SetString("ROLE", "Employee");
+
+                    return RedirectToPage("./Index");
+                }
+                else
+                {
+                    ViewData.Add("Error", "Username or password is incorrect!");
+                }
+            }
+
+            return Page();
         }
 
     }

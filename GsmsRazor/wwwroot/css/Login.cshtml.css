@@ -4,23 +4,31 @@
 .btn-fb {
     color: #fff;
     background-color: #3b5998;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     transition: .3s;
 }
 
 .btn-fb:hover {
-    color: #fff;
-    background-color: #496ebc;
+    color: #496ebc;
+    background-color: #fff;
+    border: 1px solid #496ebc;
 }
 
 .btn-gg {
     color: #fff;
     background-color: #55acee;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     transition: .3s;
 }
 
 .btn-gg:hover {
-    color: #fff;
-    background-color: #59b5fa;
+    color: #59b5fa;
+    background-color: #fff;
+    border: 1px solid #59b5fa;
 }
 
 .btn-gh {
