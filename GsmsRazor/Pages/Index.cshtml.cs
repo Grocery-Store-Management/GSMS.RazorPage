@@ -15,7 +15,7 @@ using System.Text;
 
 namespace GsmsRazor.Pages
 {
-    [Authorize(Roles = "Employee")]
+    //[Authorize(Roles = "Employee")]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;

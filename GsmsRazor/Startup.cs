@@ -20,6 +20,7 @@ namespace GsmsRazor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddRepository(Configuration);
             services.AddRazorPages();
             services.AddSignalR();
@@ -27,7 +28,6 @@ namespace GsmsRazor
             //session
             services.AddSession(o => {
                 o.IdleTimeout = TimeSpan.FromMinutes(1);
-                o.Cookie.Name = "MyCookie";
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
@@ -45,6 +45,10 @@ namespace GsmsRazor
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(options => {
+                options.WithOrigins("*").AllowAnyMethod();
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
