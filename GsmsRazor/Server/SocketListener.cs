@@ -83,7 +83,11 @@ namespace GsmsRazor.Server
             }
             finally
             {
-                listener.Stop();
+                if (listener != null)
+                {
+                    listener.Stop();
+
+                }
             }
             return GetLocalIPAddress().ToString();
         }
