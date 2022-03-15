@@ -26,7 +26,7 @@
                     <form class="row" onsubmit="return deleteNote(event)">
                         <input type="hidden" value=${v.id} />
                         <div class="col col-md-6">
-                            ${v.senderId} says: ${v.content}
+                            ${v.senderName} says: ${v.content}
                         </div>
                         <input type="submit" value="Cancel" class="btn btn-danger col col-md-3 ml-3" />
                     </form>

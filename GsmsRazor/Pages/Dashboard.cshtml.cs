@@ -2,6 +2,7 @@ using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -11,19 +12,21 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 namespace GsmsRazor.Pages
 {
     public class Note
     {
         public string id { get; set; }
         public string senderId { get; set; }
+        public string senderName { get; set; }
+
         public string content { get; set; }
 
-        public Note(string id, string senderId, string content)
+        public Note(string id, string senderId, string senderName, string content)
         {
             this.id = id;
             this.senderId = senderId;
+            this.senderName = senderName;
             this.content = content;
         }
 
@@ -108,9 +111,11 @@ namespace GsmsRazor.Pages
                 await _hub.ReloadNotes();
                 return new JsonResult("");
             }
+
             Note noteToBeAdded = new Note();
             noteToBeAdded.id = Guid.NewGuid().ToString();
-            noteToBeAdded.senderId = "asdasd";
+            noteToBeAdded.senderId = HttpContext.Session.GetString("UID");
+            noteToBeAdded.senderName = HttpContext.Session.GetString("NAME");
             noteToBeAdded.content = content;
             await addNotesAsync(noteToBeAdded);
             await _hub.ReloadNotes();
