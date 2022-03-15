@@ -1,6 +1,7 @@
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -30,6 +31,7 @@ namespace GsmsRazor.Pages
 
 
     }
+    [Authorize(Roles = "Customer")]
     public class DashboardModel : PageModel
     {
         public IEnumerable<Note> notes;

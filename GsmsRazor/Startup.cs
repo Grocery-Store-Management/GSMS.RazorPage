@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace GsmsRazor
 {
@@ -24,7 +25,10 @@ namespace GsmsRazor
             services.AddSignalR();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             //session
-            services.AddSession();
+            services.AddSession(o => {
+                o.IdleTimeout = TimeSpan.FromMinutes(1);
+                o.Cookie.Name = "MyCookie";
+            });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
