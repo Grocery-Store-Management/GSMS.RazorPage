@@ -261,9 +261,11 @@ namespace GsmsRazor.Pages
                     if (type.Equals("InvoiceExport"))
                     {
                         points = (int)(totalPrice / 1000);
+                        ViewData["QRType"] = "Accumulate";
                     } else if (type.Equals("PayByPoints"))
                     {
                         points = (int)(totalPrice / 1000) * (-1);
+                        ViewData["QRType"] = "PointPay";
                     }
                 }
                 //QR Code
@@ -283,7 +285,7 @@ namespace GsmsRazor.Pages
                 }));
                 thread.Start();
 
-                HttpContext.Session.Clear();
+                HttpContext.Session.Remove("CART");
             }
             return Page();
         }
