@@ -9,9 +9,11 @@ using GsmsRazor.Server;
 using System.Net;
 using System.Threading;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages
 {
+    [Authorize(Roles = "Employee")]
     public class QRModel : PageModel
     {
         private SignalRHub _hub;
