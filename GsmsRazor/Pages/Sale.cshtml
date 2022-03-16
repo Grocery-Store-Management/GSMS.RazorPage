@@ -104,9 +104,21 @@
         </div>
         <div class="col col-5">
             <h3>Chi tiết đơn</h3>
-            <a class="btn btn-primary"
-               asp-page="/Sale"
-               asp-page-handler="InvoiceExport">XUẤT ĐƠN</a>
+            <div class="row justify-content-around">
+                <div class="col-4">
+                    <a class="btn btn-primary"
+                       asp-page="/Sale"
+                       asp-page-handler="InvoiceExport"
+                       asp-route-type="InvoiceExport">XUẤT ĐƠN</a>
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-primary"
+                       asp-page="/Sale"
+                       asp-page-handler="InvoiceExport"
+                       asp-route-type="PayByPoints">PAY BY POINTS</a>
+                </div>
+            </div>
+            
 
             <p class="mt-2" style="font-size:20px">
                 Tổng tiền:
