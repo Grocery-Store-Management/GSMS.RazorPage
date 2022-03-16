@@ -40,6 +40,7 @@ namespace GsmsRazor
             {
                 o.IdleTimeout = TimeSpan.FromMinutes(1);
             });
+            services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 

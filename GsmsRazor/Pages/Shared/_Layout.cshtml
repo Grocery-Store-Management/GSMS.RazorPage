@@ -36,7 +36,15 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/QR">QR</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
+                            </li>
+                            <li class="nav-item ml-4">
+                                <form method="post" asp-page="/Login" asp-page-handler="Logout">
+                                    <button type="submit" class="btn btn-link">Logout</button>
+                                </form>
                             </li>
                         }
                     </ul>

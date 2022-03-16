@@ -13,6 +13,7 @@ using DataAccessLibrary.Interfaces;
 using GsmsLibrary;
 using GsmsRazor.Server;
 using GsmsRazor.SessionUtil;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,6 +23,7 @@ using QRCoder;
 
 namespace GsmsRazor.Pages
 {
+    [Authorize(Roles = "Employee")]
     public class SaleModel : PageModel
     {
         private readonly ProductBusinessEntity _productEntity;
