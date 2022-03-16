@@ -35,23 +35,5 @@ namespace GsmsRazor.Pages
         {
             return Page();
         }
-
-        [BindProperty]
-        public Customer Customer { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                TempData["RegError"] = "These problems occured while trying to register: ";
-                return Page();
-            }
-
-            Customer.Id = new Guid().ToString();
-            Customer.CreatedDate = DateTime.Now;
-
-            await _entity.AddAsync(Customer);
-            return RedirectToPage("./Index");
-        }
     }
 }

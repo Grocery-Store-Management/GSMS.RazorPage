@@ -19,7 +19,7 @@ namespace DataAccessLibrary.BusinessEntity
             Store store = await work.Stores.GetAsync(newReceipt.StoreId);
             if (store == null)
             {
-                throw new Exception("Cửa hàng không tồn tại!!");
+                throw new Exception("Store is not existed!");
             }
             newReceipt.Id = GsmsUtils.CreateGuiId();
             newReceipt.CreatedDate = DateTime.Now;
@@ -32,11 +32,20 @@ namespace DataAccessLibrary.BusinessEntity
                     Product product = await work.Products.GetAsync(receiptDetail.ProductId);
                     if (product == null || product.IsDeleted == true)
                     {
-                        throw new Exception("Sản phẩm không tồn tại!!");
+                        throw new Exception("Product is not existed!");
                     }
                     if (receiptDetail.Quantity > product.StoredQuantity)
                     {
-                        throw new Exception($"Số lượng {product.Name} vượt quá số lượng trong kho ({product.StoredQuantity})!!");
+                        throw new Exception($"Purchase of {product.Name} exceed stored quantity ({product.StoredQuantity})!!");
+                    }
+                    if(receiptDetail.Quantity == product.StoredQuantity)
+                    {
+                        //product.Status = Status.OUT_OF_STOCK;
+                        product.Status = 2; //out of stock
+                    } else if(product.StoredQuantity - receiptDetail.Quantity < 10 && product.StoredQuantity - receiptDetail.Quantity > 0)
+                    {
+                        //product.Status = Status.ALMOST_OUT_OF_STOCK;
+                        product.Status = 3; //almost out of stock
                     }
                     receiptDetail.ReceiptId = newReceipt.Id;
                     receiptDetail.CreatedDate = DateTime.Now;

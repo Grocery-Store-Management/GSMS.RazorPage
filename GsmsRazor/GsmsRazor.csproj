@@ -5,10 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\Login.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\Login.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\Login.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CorePush" Version="3.0.10" />
     <PackageReference Include="FireSharp" Version="2.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -21,7 +30,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
-    <PackageReference Include="RestSharp" Version="107.3.0" />
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
 

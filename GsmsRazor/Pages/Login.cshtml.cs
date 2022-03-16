@@ -16,6 +16,7 @@ namespace GsmsRazor.Pages
     public class LoginModel : PageModel
     {
         private readonly GsmsContext _context;
+        public HttpContext httpContext;
 
         public LoginModel(GsmsContext context)
         {
@@ -30,8 +31,12 @@ namespace GsmsRazor.Pages
         [Required]
         public string Password { get; set; }
 
-
         public async Task<IActionResult> OnGetLogout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToPage("/Login");
+        }
+        public async Task<IActionResult> OnPostLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage("/Login");
@@ -47,7 +52,7 @@ namespace GsmsRazor.Pages
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Role, "Customer"),
-                    new Claim(ClaimTypes.NameIdentifier, _cus.Id),
+                    new Claim("ID", _cus.Id),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -79,7 +84,7 @@ namespace GsmsRazor.Pages
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Role, "Employee"),
-                        new Claim(ClaimTypes.NameIdentifier, _emp.Id)
+                        new Claim("ID", _emp.Id)
                     };
 
                     var claimsIdentity = new ClaimsIdentity(

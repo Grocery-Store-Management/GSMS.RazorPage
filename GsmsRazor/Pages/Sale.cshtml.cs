@@ -13,6 +13,7 @@ using DataAccessLibrary.Interfaces;
 using GsmsLibrary;
 using GsmsRazor.Server;
 using GsmsRazor.SessionUtil;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,10 +23,12 @@ using QRCoder;
 
 namespace GsmsRazor.Pages
 {
+    [Authorize(Roles = "Employee")]
     public class SaleModel : PageModel
     {
         private readonly ProductBusinessEntity _productEntity;
         private readonly ReceiptBusinessEntity _receiptEntity;
+        private readonly CustomerBusinessEntity _customerEntity;
         private SignalRHub _hub;
         private const int pageSize = 3;
 
@@ -33,14 +36,34 @@ namespace GsmsRazor.Pages
         {
             _productEntity = new ProductBusinessEntity(work);
             _receiptEntity = new ReceiptBusinessEntity(work);
+            _customerEntity = new CustomerBusinessEntity(work);
             _hub = new SignalRHub(contextR);
+        }
+
+
+        [BindProperty]
+        public Customer Customer { get; set; }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["RegError"] = "These problems occured while trying to register: ";
+                return Page();
+            }
+
+            Customer.Id = new Guid().ToString();
+            Customer.CreatedDate = DateTime.Now;
+
+            await _customerEntity.AddAsync(Customer);
+            return RedirectToPage("./Index");
         }
 
         [BindProperty]
         public IEnumerable<Product> ProductList { get; set; }
 
         public async Task<IActionResult> OnGet(
-            string searchString, 
+            string searchString,
             int? pageIndex)
         {
             if (!pageIndex.HasValue)
@@ -59,10 +82,10 @@ namespace GsmsRazor.Pages
             //Calculate total price
             List<CartItem> cart = null;
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
-            if(cart != null)
+            if (cart != null)
             {
                 decimal totalPrice = 0;
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     totalPrice += item.Quantity * item.Price;
                 }
@@ -126,7 +149,7 @@ namespace GsmsRazor.Pages
                     HttpContext.Session.SetData("CART", cart);
                 }
             }
-            
+
             return new JsonResult(cart);
         }
 
@@ -134,9 +157,9 @@ namespace GsmsRazor.Pages
         {
             List<CartItem> cart = null;
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
-            if(cart != null)
+            if (cart != null)
             {
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     if (item.ProductId.Equals(productId))
                     {
@@ -155,7 +178,7 @@ namespace GsmsRazor.Pages
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
             if (!string.IsNullOrEmpty(productId))
             {
-                if(cart != null)
+                if (cart != null)
                 {
                     foreach (CartItem item in cart)
                     {
@@ -167,12 +190,12 @@ namespace GsmsRazor.Pages
                     }
                     HttpContext.Session.SetData("CART", cart);
                 }
-               
+
             }
             return new JsonResult(cart);
         }
 
-        public async Task<IActionResult> OnGetInvoiceExport()
+        public async Task<IActionResult> OnGetInvoiceExport(string type)
         {
             int countProduct = _productEntity
                         .GetProductsAsync(null, null, SortType.ASC, 0, pageSize).Result.Count(); //pageIndex = 0 to get all
@@ -191,10 +214,10 @@ namespace GsmsRazor.Pages
             //Save Receipt
             try
             {
-                if(cart != null)
+                if (cart != null)
                 {
                     List<ReceiptDetail> receiptDetails = new List<ReceiptDetail>();
-                    foreach(CartItem item in cart)
+                    foreach (CartItem item in cart)
                     {
                         receiptDetails.Add(new ReceiptDetail
                         {
@@ -206,17 +229,17 @@ namespace GsmsRazor.Pages
                     }
                     Receipt receipt = new Receipt
                     {
-                        //Id, Created Date, IsDeleted is created in business entity
-                        // chờ Gianh ca để lấy StoreId
-                        StoreId = "5119c095-6963-48c9-a804-56fdad82de11",
-                        //chờ Gianh ca để lấy EmployeeId
-                        EmployeeId = "1631eb0a-fef8-4b86-9ae7-9e904f211fea",
-                        CustomerId = "6f147985-f73f-4f54-887c-d356eca77203",
+                        StoreId = HttpContext.Session.GetString("STORE_ID"),
+                        EmployeeId = HttpContext.Session.GetString("UID"),
                         ReceiptDetails = receiptDetails
                     };
                     addedReceipt = await _receiptEntity.AddReceiptAsync(receipt);
+                } else
+                {
+                    throw new Exception("Receipt is empty, please add at least one product!!!");
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
                 return Page();
@@ -224,15 +247,26 @@ namespace GsmsRazor.Pages
 
             //Calculate points
             decimal totalPrice = 0;
-            int points;
-            
+            int points = 0;
+
             if (cart != null)
             {
-                foreach(CartItem item in cart)
+                foreach (CartItem item in cart)
                 {
                     totalPrice += item.Price * item.Quantity;
                 }
-                points = (int)(totalPrice / 1000);
+                if (!string.IsNullOrEmpty(type))
+                {
+                    if (type.Equals("InvoiceExport"))
+                    {
+                        points = (int)(totalPrice / 1000);
+                        ViewData["QRType"] = "Accumulate";
+                    } else if (type.Equals("PayByPoints"))
+                    {
+                        points = (int)(totalPrice / 1000) * (-1);
+                        ViewData["QRType"] = "PointPay";
+                    }
+                }
                 //QR Code
                 string ip = SocketListener.GetLocalIPAddress().ToString();
                 string qrText = $"{ip}${{\"createdDate\":\"Mar 3, 2022 16:09:43\",\"id\":,\"isDeleted\":false,\"password\":\"12345678\",\"phoneNumber\":\"0978665441\",\"point\":\"{points}\"}}";
@@ -250,7 +284,7 @@ namespace GsmsRazor.Pages
                 }));
                 thread.Start();
 
-                HttpContext.Session.Clear();
+                HttpContext.Session.Remove("CART");
             }
             return Page();
         }

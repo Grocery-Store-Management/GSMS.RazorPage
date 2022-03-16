@@ -1,6 +1,10 @@
+using CorePush.Apple;
+using CorePush.Google;
+using GSMS.API.PRM;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,15 +24,23 @@ namespace GsmsRazor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+            var appSettingsSection = Configuration.GetSection("FcmNotification");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddCors();
             services.AddRepository(Configuration);
             services.AddRazorPages();
             services.AddSignalR();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             //session
-            services.AddSession(o => {
+            services.AddSession(o =>
+            {
                 o.IdleTimeout = TimeSpan.FromMinutes(1);
-                o.Cookie.Name = "MyCookie";
             });
+            services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
@@ -45,6 +57,11 @@ namespace GsmsRazor
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(options =>
+            {
+                options.WithOrigins("*").AllowAnyMethod();
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

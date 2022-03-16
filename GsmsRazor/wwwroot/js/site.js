@@ -14,7 +14,7 @@
 
 
     function LoadNotesData() {
-
+        $('#btnShow').prop('disabled', true);
         $("#btnPost").prop('disabled', true);
         var li = '';
         $.ajax({
@@ -33,6 +33,7 @@
                 </li>`
                 })
                 $("#dashboard").html(li);
+                $('#btnShow').prop('disabled', false);
                 $("#btnPost").prop('disabled', false);
             }, error: (error) => {
                 console.log(error)
@@ -45,7 +46,7 @@
         toastr.success('Points updated!', "Success");
 
         setTimeout(() => {
-            window.location.replace("/")
+            window.location.replace("/Sale")
         }, 1500);
     }
 
