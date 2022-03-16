@@ -2,7 +2,9 @@
 {
     public enum Status
     {
-        ACTIVE = 1,
-        INACTIVE = -1
+        AVAILABLE = 1,
+        OUT_OF_STOCK = 2,
+        ALMOST_OUT_OF_STOCK = 3,
+        BEST_SELLER = 4
     }
 }

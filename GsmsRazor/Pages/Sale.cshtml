@@ -14,7 +14,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Đăng ký</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Registration</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -37,24 +37,24 @@
         </div>
     </div>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#customerModal">
-        Đăng ký tài khoản
+        Register an account
     </button>
     <div class="text-danger">@TempData["RegError"]</div>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row">
         <div class="col col-7">
-            <h3>Danh sách hàng hóa</h3>
+            <h3>Product List</h3>
             <form asp-page="/Sale" method="get" class="m-2">
-                <input name="searchString" class="form-control mb-2" placeholder="Tìm kiếm sản phẩm" value="@ViewBag.searchString" />
-                <button class="btn btn-primary mb-2" type="submit">Tìm kiếm</button>
+                <input name="searchString" class="form-control mb-2" placeholder="Search product..." value="@ViewBag.searchString" />
+                <button class="btn btn-primary mb-2" type="submit">Search</button>
             </form>
             <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>TÊN HÀNG</th>
-                        <th>GIÁ</th>
-                        <th>TÌNH TRẠNG</th>
-                        <th>TƯƠNG TÁC</th>
+                <thead class="thead-dark">
+                    <tr class="text-white">
+                        <th>PRODUCT NAME</th>
+                        <th>PRICE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,9 +67,9 @@
                                     <td>@product.Name</td>
                                     <td>@product.Price</td>
                                     @{
-                                        if (product.StoredQuantity > 0)
+                                        if (product.Status == 1)
                                         {
-                                            <td><span class="badge badge-success p-2" style="font-size:15px">Còn hàng</span></td>
+                                            <td><span class="badge badge-success p-2" style="font-size:15px">Available</span></td>
                                             <td>
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
@@ -77,9 +77,9 @@
                                                 </a>
                                             </td>
                                         }
-                                        else
+                                        else if(product.Status == 2)
                                         {
-                                            <td><span class="badge badge-danger p-2" style="font-size:15px">Hết hàng</span></td>
+                                            <td><span class="badge badge-danger p-2" style="font-size:15px">Out of stock</span></td>
                                         }
                                     }
 
@@ -103,25 +103,29 @@
             }
         </div>
         <div class="col col-5">
-            <h3>Chi tiết đơn</h3>
+            <h3>
+                Order details
+            </h3>
             <div class="row justify-content-around">
                 <div class="col-4">
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary font-weight-bold text-white"
                        asp-page="/Sale"
                        asp-page-handler="InvoiceExport"
-                       asp-route-type="InvoiceExport">XUẤT ĐƠN</a>
+                       asp-route-type="InvoiceExport"
+                       style="width:150px;height:50px">EXPORT</a>
                 </div>
                 <div class="col-4">
-                    <a class="btn btn-warning"
+                    <a class="btn btn-warning font-weight-bold text-white"
                        asp-page="/Sale"
                        asp-page-handler="InvoiceExport"
-                       asp-route-type="PayByPoints">THANH TOÁN BẰNG ĐIỂM</a>
+                       asp-route-type="PayByPoints"
+                       style="width:150px;height:50px">PAY BY POINT</a>
                 </div>
             </div>
             
 
             <p class="mt-2" style="font-size:20px">
-                Tổng tiền:
+                Total:
                 @if (ViewBag.totalPrice != null)
                 {
                     <span class="text-primary" id="TotalPrice">@ViewBag.totalPrice</span>
@@ -139,11 +143,11 @@
                     <span class="badge badge-danger p-2" style="font-size:13px">@ViewBag.Error</span>
                 }
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width:50%">TÊN HÀNG</th>
-                            <th style="width:25%">SỐ LƯỢNG</th>
-                            <th style="width:25%">TƯƠNG TÁC</th>
+                    <thead class="thead-dark">
+                        <tr class="text-white">
+                            <th style="width:50%">PRODUCT NAME</th>
+                            <th style="width:25%">QUANTITY</th>
+                            <th style="width:25%">ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="ReceiptBody">
@@ -180,15 +184,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content align-items-center justify-content-center">
                 <div class="modal-header">
-                    <h3 class="modal-title text-success">Xuất đơn thành công</h3>
+                    <h3 class="modal-title text-success">Invoice printed successfully</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    <h5 class="text-info align-items-center justify-content-center">Quét mã QR để tích điểm ngay!!!</h5>
+                    @{
+                        if (ViewBag.QRType != null && ViewBag.QRType.Equals("Accumulate"))
+                        {
+                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to earn points now!!!</h5>
+                        }
+                        else
+                        {
+                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to pay!!!</h5>
+                        }
+                    }
                     <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
-                     style="max-height:60vh;max-width:60vw;" />
+                         style="max-height:60vh;max-width:60vw;" />
 
                 </div>
             </div>
