@@ -46,7 +46,7 @@
         toastr.success('Points updated!', "Success");
 
         setTimeout(() => {
-            window.location.replace("/")
+            window.location.replace("/Sale")
         }, 1500);
     }
 
