@@ -195,7 +195,7 @@ namespace GsmsRazor.Pages
             return new JsonResult(cart);
         }
 
-        public async Task<IActionResult> OnGetInvoiceExport()
+        public async Task<IActionResult> OnGetInvoiceExport(string type)
         {
             int countProduct = _productEntity
                         .GetProductsAsync(null, null, SortType.ASC, 0, pageSize).Result.Count(); //pageIndex = 0 to get all
@@ -248,7 +248,7 @@ namespace GsmsRazor.Pages
 
             //Calculate points
             decimal totalPrice = 0;
-            int points;
+            int points = 0;
 
             if (cart != null)
             {
@@ -256,7 +256,16 @@ namespace GsmsRazor.Pages
                 {
                     totalPrice += item.Price * item.Quantity;
                 }
-                points = (int)(totalPrice / 1000);
+                if (!string.IsNullOrEmpty(type))
+                {
+                    if (type.Equals("InvoiceExport"))
+                    {
+                        points = (int)(totalPrice / 1000);
+                    } else if (type.Equals("PayByPoints"))
+                    {
+                        points = (int)(totalPrice / 1000) * (-1);
+                    }
+                }
                 //QR Code
                 string ip = SocketListener.GetLocalIPAddress().ToString();
                 string qrText = $"{ip}${{\"createdDate\":\"Mar 3, 2022 16:09:43\",\"id\":,\"isDeleted\":false,\"password\":\"12345678\",\"phoneNumber\":\"0978665441\",\"point\":\"{points}\"}}";
