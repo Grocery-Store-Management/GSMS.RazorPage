@@ -261,7 +261,8 @@ namespace GsmsRazor.Pages
                     if (type.Equals("InvoiceExport"))
                     {
                         points = (int)(totalPrice / 1000);
-                    } else if (type.Equals("PayByPoints"))
+                    }
+                    else if (type.Equals("PayByPoints"))
                     {
                         points = (int)(totalPrice / 1000) * (-1);
                     }
@@ -283,7 +284,7 @@ namespace GsmsRazor.Pages
                 }));
                 thread.Start();
 
-                HttpContext.Session.Clear();
+                HttpContext.Session.SetData("CART", null);
             }
             return Page();
         }
