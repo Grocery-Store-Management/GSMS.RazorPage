@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Cashier, Store Owner")]
     public class QRModel : PageModel
     {
         private SignalRHub _hub;

@@ -1,37 +1,33 @@
 ﻿@page
 @model GsmsRazor.Pages.QRModel
 @{
-    <div class="container">
-        <div id="content">
-            <div id="viewContent">
+    <div class="container col-md-12">
+        <div id="content" class="col-md-12">
+            <div id="viewContent" class="col-md-12">
                 @using (Html.BeginForm(null, null, FormMethod.Post))
                 {
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label>Enter points for creating QR Code</label>
-                                </td>
-                                <td>
-                                    <input type="number" name="points" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <button>Submit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-12 d-flex flex-column justify-content-center align-content-center">
+                    <label>Enter points for creating QR Code</label>
+                    @*<input class="col-md-2" type="text" name="points" />*@
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">P ></span>
+                        </div>
+                        <input type="text" class="form-control col-md-3" placeholder="Enter points hehe" name="points">
+                    </div>
+                    <button class="btn btn-outline-success col-md-1">Submit</button>
+                </div>
                 }
             </div>
 
             @{
                 if (ViewBag.encodedBytes != null)
                 {
-                    <h3>QR Code Successfully Generated</h3>
-                    <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
-                     style="max-height:60vh;max-width:60vw;" />
+                    <div class="col col-md-12 d-flex justify-content-center align-items-center flex-column">
+                        <h3>QR Code Successfully Generated</h3>
+                        <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
+                                style="height: auto; max-width: 40vw;" />
+                    </div>
                 }
             }
         </div>

@@ -18,19 +18,22 @@ namespace GsmsRazor.Pages
         private readonly GsmsContext _context;
         public HttpContext httpContext;
 
+        [BindProperty]
+        [MaxLength(60, ErrorMessage = "This string is too long.")]
+        public string Username { get; set; }
+        [BindProperty]
+        [MaxLength(60, ErrorMessage = "This string is too long.")]
+        public string Password { get; set; }
+
         public LoginModel(GsmsContext context)
         {
             _context = context;
         }
-
-        [BindProperty]
-        [Required]
-        public string Username { get; set; }
-
-        [BindProperty]
-        [Required]
-        public string Password { get; set; }
-
+        public IActionResult OnGet()
+        {
+            ViewData["Error"] = null;
+            return Page();
+        }
         public async Task<IActionResult> OnGetLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -83,7 +86,7 @@ namespace GsmsRazor.Pages
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Role, "Employee"),
+                        new Claim(ClaimTypes.Role, _emp.Role),
                         new Claim("ID", _emp.Id)
                     };
 
@@ -104,7 +107,7 @@ namespace GsmsRazor.Pages
                     HttpContext.Session.SetString("UID", _emp.Id);
                     HttpContext.Session.SetString("NAME", _emp.Name);
                     HttpContext.Session.SetString("STORE_ID", _emp.StoreId);
-                    HttpContext.Session.SetString("ROLE", "Employee");
+                    HttpContext.Session.SetString("ROLE", _emp.Role);
 
                     return RedirectToPage("./Index");
                 }
