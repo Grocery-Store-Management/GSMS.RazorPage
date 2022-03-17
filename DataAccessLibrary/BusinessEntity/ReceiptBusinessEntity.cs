@@ -3,6 +3,7 @@ using DataAccessLibrary.Interfaces;
 using GsmsLibrary;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccessLibrary.BusinessEntity
@@ -57,6 +58,13 @@ namespace DataAccessLibrary.BusinessEntity
             await work.Receipts.AddAsync(newReceipt);
             await work.Save();
             return newReceipt;
+        }
+
+        public async Task<IEnumerable<Receipt>> GetReceiptsBySaleMonthYearAsync(int saleMonth, int saleYear)
+        {
+            IEnumerable<Receipt> receipts = await work.Receipts.GetAllAsync();
+            receipts = receipts.Where(i => i.IsDeleted == false && i.CreatedDate.Month == saleMonth && i.CreatedDate.Year == saleYear);
+            return receipts;
         }
     }
 }
