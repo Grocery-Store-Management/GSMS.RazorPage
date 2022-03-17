@@ -229,15 +229,14 @@ namespace GsmsRazor.Pages
                     }
                     Receipt receipt = new Receipt
                     {
-                        //Id, Created Date, IsDeleted is created in business entity
-                        // chờ Gianh ca để lấy StoreId
-                        StoreId = "5119c095-6963-48c9-a804-56fdad82de11",
-                        //chờ Gianh ca để lấy EmployeeId
-                        EmployeeId = "1631eb0a-fef8-4b86-9ae7-9e904f211fea",
-                        CustomerId = "6f147985-f73f-4f54-887c-d356eca77203",
+                        StoreId = HttpContext.Session.GetString("STORE_ID"),
+                        EmployeeId = HttpContext.Session.GetString("UID"),
                         ReceiptDetails = receiptDetails
                     };
                     addedReceipt = await _receiptEntity.AddReceiptAsync(receipt);
+                } else
+                {
+                    throw new Exception("Receipt is empty, please add at least one product!!!");
                 }
             }
             catch (Exception ex)
@@ -261,10 +260,11 @@ namespace GsmsRazor.Pages
                     if (type.Equals("InvoiceExport"))
                     {
                         points = (int)(totalPrice / 1000);
-                    }
-                    else if (type.Equals("PayByPoints"))
+                        ViewData["QRType"] = "Accumulate";
+                    } else if (type.Equals("PayByPoints"))
                     {
                         points = (int)(totalPrice / 1000) * (-1);
+                        ViewData["QRType"] = "PointPay";
                     }
                 }
                 //QR Code
@@ -284,7 +284,7 @@ namespace GsmsRazor.Pages
                 }));
                 thread.Start();
 
-                HttpContext.Session.SetData("CART", null);
+                HttpContext.Session.Remove("CART");
             }
             return Page();
         }

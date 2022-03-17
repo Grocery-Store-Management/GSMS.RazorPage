@@ -187,9 +187,7 @@ namespace BusinessObjectLibrary
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.CustomerId)
-                    .IsRequired()
-                    .HasMaxLength(40);
+                entity.Property(e => e.CustomerId).HasMaxLength(40);
 
                 entity.Property(e => e.EmployeeId)
                     .IsRequired()
@@ -198,12 +196,6 @@ namespace BusinessObjectLibrary
                 entity.Property(e => e.StoreId)
                     .IsRequired()
                     .HasMaxLength(40);
-
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Receipts)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Receipt_Customer");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Receipts)
