@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -48,7 +49,6 @@ namespace GsmsRazor.Pages
         {
             if (!ModelState.IsValid)
             {
-                TempData["RegError"] = "These problems occured while trying to register: ";
                 return Page();
             }
 
@@ -56,7 +56,7 @@ namespace GsmsRazor.Pages
             Customer.CreatedDate = DateTime.Now;
 
             await _customerEntity.AddAsync(Customer);
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         [BindProperty]
@@ -234,7 +234,8 @@ namespace GsmsRazor.Pages
                         ReceiptDetails = receiptDetails
                     };
                     addedReceipt = await _receiptEntity.AddReceiptAsync(receipt);
-                } else
+                }
+                else
                 {
                     throw new Exception("Receipt is empty, please add at least one product!!!");
                 }
@@ -261,7 +262,8 @@ namespace GsmsRazor.Pages
                     {
                         points = (int)(totalPrice / 1000);
                         ViewData["QRType"] = "Accumulate";
-                    } else if (type.Equals("PayByPoints"))
+                    }
+                    else if (type.Equals("PayByPoints"))
                     {
                         points = (int)(totalPrice / 1000) * (-1);
                         ViewData["QRType"] = "PointPay";

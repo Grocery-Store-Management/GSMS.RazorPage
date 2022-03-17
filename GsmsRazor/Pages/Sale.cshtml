@@ -19,15 +19,19 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="customerForm" method="post" class="col ml-3 mt-3">
+                    <form id="customerForm" method="post" class="col ml-3 mt-3" onsubmit="return register(event)">
                         <div class="form-group col col-md-10">
                             <label asp-for="Customer.PhoneNumber" class="control-label"></label>
-                            <input asp-for="Customer.PhoneNumber" class="form-control" />
+                            <input id="txtPhone" asp-for="Customer.PhoneNumber" class="form-control" />
+                            <span class="text-danger" id="phoneNumberValidation" asp-validation-for="Customer.PhoneNumber"></span>
                         </div>
                         <div class="form-group col col-md-10">
                             <label asp-for="Customer.Password" class="control-label"></label>
-                            <input asp-for="Customer.Password" class="form-control" />
+                            <input type="password" id="txtPassword" asp-for="Customer.Password" class="form-control" />
+                            <span class="text-danger" id="passwordValidation" asp-validation-for="Customer.Password"></span>
+
                         </div>
+                        <input id="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
                         <div class="form-group col col-md-4">
                             <input type="submit" value="Create" class="btn btn-primary" />
                         </div>
@@ -132,7 +136,7 @@
                        style="width:150px;height:50px">PAY BY POINT</a>
                 </div>
             </div>
-            
+
 
             <p class="mt-2" style="font-size:20px">
                 Total:
@@ -211,7 +215,7 @@
                         }
                     }
                     <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
-                         style="max-height:60vh;max-width:60vw;" />
+                     style="max-height:60vh;max-width:60vw;" />
 
                 </div>
             </div>
@@ -233,4 +237,25 @@
 
 @section scripts{
 <script src="~/js/sale.js"></script>
+<script>
+    function register(e){
+        e.preventDefault();
+        var form = $('#customerForm');
+    var actionUrl = form.attr('action');
+    var dataToSend = form.serialize();
+    $.post(actionUrl, dataToSend).done(function (data) {
+        var isValid = $(data).find("#IsValid").val();
+        if(isValid.toString() === "True"){
+            $("#customerModal").modal('toggle');
+            $("#txtPhoneNumber").text("");
+            $("#txtPassword").text("");
+            toastr.options.showEasing = 'swing';
+        toastr.success('Account registered!', "Success");
+        }else{
+        var newBody = $(data).find("#customerForm");
+        $("#customerForm").replaceWith(newBody)
+        }
+    });
+    }
+</script>
 }
