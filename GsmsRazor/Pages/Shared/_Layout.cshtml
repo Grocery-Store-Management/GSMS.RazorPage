@@ -17,6 +17,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />
 </head>
 <body>
@@ -37,6 +39,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Report">Report</a>
                             </li>
                             <li class="nav-item ml-4">
                                 <form method="post" asp-page="/Login" asp-page-handler="Logout">
