@@ -265,9 +265,11 @@ namespace GsmsRazor.Pages
                     }
                     else if (type.Equals("PayByPoints"))
                     {
-                        points = (int)(totalPrice / 1000) * (-1);
+                        points = (int)(totalPrice / 100) * (-1);
                         ViewData["QRType"] = "PointPay";
                     }
+                    ViewData["Points"] = points;
+
                 }
                 //QR Code
                 string ip = SocketListener.GetLocalIPAddress().ToString();

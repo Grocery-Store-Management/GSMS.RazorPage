@@ -126,7 +126,7 @@
                        asp-page="/Sale"
                        asp-page-handler="InvoiceExport"
                        asp-route-type="InvoiceExport"
-                       style="width:150px;height:50px">EXPORT</a>
+                       style="width:150px;height:50px">BILL</a>
                 </div>
                 <div class="col-4">
                     <a class="btn btn-warning font-weight-bold text-white"
@@ -207,11 +207,11 @@
                     @{
                         if (ViewBag.QRType != null && ViewBag.QRType.Equals("Accumulate"))
                         {
-                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to earn points now!!!</h5>
+                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to earn @ViewBag.Points points now!!!</h5>
                         }
                         else
                         {
-                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to pay!!!</h5>
+                            <h5 class="text-info align-items-center justify-content-center">Scan QR code to use @(ViewBag.Points * -1) points to pay for this order!!!</h5>
                         }
                     }
                     <img src="@String.Format("data:image/png;base64,{0}", @ViewBag.encodedBytes)"
