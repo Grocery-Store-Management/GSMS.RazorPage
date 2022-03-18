@@ -18,7 +18,7 @@ namespace BusinessObjectLibrary.ViewModel
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required(ErrorMessage = "StoreId is required!")]
-        [Display(Name = "Store Id")]
+        [Display(Name = "Store")]
         public string StoreId { get; set; }
         [Required(ErrorMessage = "Role is required!")]
         public string Role { get; set; }

@@ -30,7 +30,7 @@ namespace BusinessObjectLibrary
         [Required(ErrorMessage = "Created Date is required!")]
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; }
-        [Required(ErrorMessage = "Is Deleted is required!")]
+
         [Display(Name = "Status")]
         public bool IsDeleted { get; set; }
 

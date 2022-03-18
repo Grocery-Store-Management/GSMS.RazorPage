@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessObjectLibrary;
 using BusinessObjectLibrary.ViewModel;
+using ClosedXML.Excel;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -154,11 +156,11 @@ namespace GsmsRazor.Pages
             {
                 if (!product.Equals(lastProduct))
                 {
-                    productLabels += "'" + product.Name + "',";
+                    productLabels += "\"" + product.Name + "\",";
                     productData += product.StoredQuantity + ",";
                 } else
                 {
-                    productLabels += "'" + product.Name + "']";
+                    productLabels += "\"" + product.Name + "\"]";
                     productData += product.StoredQuantity;
                 }
             }
@@ -195,6 +197,74 @@ namespace GsmsRazor.Pages
             });
 
             return Page();
+        }
+
+        public async Task<FileResult> OnPostExportRevenue(int exportMonth, int exportYear)
+        {
+            int days = DateTime.DaysInMonth(exportYear, exportMonth);
+            Dictionary<string, int> dailyRevenue = new Dictionary<string, int>();
+            IEnumerable<ReceiptDetail> tmpReceiptDetails = await _receiptDetailEntity.GetReceiptDetailsAsync();
+            decimal tmpDailyRevenue;
+
+            for (int i = 1; i <= days; i++)
+            {
+                tmpDailyRevenue = _receiptDetailEntity.GetReceiptDailyRevenue(tmpReceiptDetails, i, exportMonth, exportYear);
+                dailyRevenue.Add(i.ToString(), int.Parse(String.Format("{0:0}", tmpDailyRevenue)));
+                tmpDailyRevenue = 0;
+            }
+
+            DataTable dt = new DataTable("REVENUE_ " + exportMonth + "_" + exportYear);
+            dt.Columns.AddRange(new DataColumn[2] { new DataColumn("Date"),
+                                    new DataColumn("Revenue (VND)") });
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add(dt);
+                int column = 1;
+                int row = 2;
+                foreach (var keyValue in dailyRevenue)
+                {
+                    ws.Cell(row, column).Value = keyValue.Key + "/" + exportMonth + "/" + exportYear;
+                    ws.Cell(row, column + 1).Value = keyValue.Value;
+                    row++;
+                }
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "REVENUE_" + exportMonth + "_" + exportYear + ".xlsx");
+                }
+            }
+        }
+
+        public async Task<FileResult> OnPostExportProduct()
+        {
+            IEnumerable<Product> products = await _productEntity.GetActiveProductsAsync();
+
+            DataTable dt = new DataTable("PRODUCT_REPORT");
+            dt.Columns.AddRange(new DataColumn[2] { new DataColumn("Product Name"),
+                                    new DataColumn("Stored Quantity") });
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add(dt);
+                int column = 1;
+                int row = 2;
+                foreach(var product in products)
+                {
+                    ws.Cell(row, column).Value = product.Name;
+                    ws.Cell(row, column + 1).Value = product.StoredQuantity;
+                    row++;
+                }
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "PRODUCT_REPORT.xlsx");
+                }
+            }
         }
     }
 }
