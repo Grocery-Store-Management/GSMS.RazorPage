@@ -38,18 +38,18 @@ namespace GsmsRazor.Pages.Products
 
             //if (!string.IsNullOrEmpty(searchString))
             //{
-            //    ViewData["Search"] = searchString;
+            //    
             //    Products = Products.Where(
             //        p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
             //}
-
+            ViewData["Search"] = searchString;
             int pageSize = 5;
             int pageNumber = (sPage ?? 1);
             Products = (await _products.GetProductsAsync(null,
                 searchString, null, pageNumber, pageSize))
                 .ToList();
 
-            int pageCount = (int)Math.Ceiling((decimal)(await _products.GetAllProductsAsync()).Count() / pageSize);
+            int pageCount = (int)Math.Ceiling((decimal)(await _products.GetProductsAsync(null, searchString, null, 0, 0)).Count() / pageSize);
 
             ViewData["PageNumber"] = pageNumber;
             ViewData["PageCount"] = pageCount;
