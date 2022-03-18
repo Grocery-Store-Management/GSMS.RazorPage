@@ -116,15 +116,15 @@ ${v.name}
                                        name="iodDistributor" value="${v.distributor}" />
 </td>
                     <td>
-                        <div class="row">
+                        <div class="w-75 btn-group" role="group">
                             <button data-productid=${v.productId} name="btnSaveIOD"
-                                    class="btn btn-success text-white"
+                                    class="btn btn-success text-white mx-1 rounded"
                                     onclick="saveCartItem('${v.productId}')"
                                 >
                                 <i class="fa-solid fa-floppy-disk"></i>
                             </button>
                             <button data-productid=${v.productId} name="btnDeleteIOD"
-                                    class="btn btn-outline-danger"
+                                    class="btn btn-outline-danger mx-1 rounded"
                                     onclick="removeFromCart('${v.productId}')"
                                 >
                                 <i class="fa-solid fa-trash-can"></i>

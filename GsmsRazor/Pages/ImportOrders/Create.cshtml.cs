@@ -9,9 +9,13 @@ using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
 using GsmsRazor.SessionUtil;
+using GsmsLibrary;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages.ImportOrders
 {
+    [Authorize(Roles = "Store Owner")]
+
     public class CreateModel : PageModel
     {
         private readonly ImportOrderBusinessEntity _importOrders;
@@ -31,7 +35,8 @@ namespace GsmsRazor.Pages.ImportOrders
            [FromQuery] int? sPage)
         {
             IEnumerable<Store> stores = await _stores.GetStoresAsync();
-            ViewData["StoreId"] = new SelectList(stores, "Id", "Name");
+            ViewData["StoreId"] = (new SelectList(stores, "Id", "Name"))
+                .Append(new SelectListItem("Add new Store", "addNewStore"));
 
             Products = (await _products.GetAllProductsAsync()).ToList();
 
@@ -157,6 +162,16 @@ namespace GsmsRazor.Pages.ImportOrders
                 HttpContext.Session.SetData("ImportOrderCart", cart);
             }
             return new JsonResult(cart);
+        }
+
+        public async Task<IActionResult> OnPostCreateStoreAsync()
+        {
+            Store store = await GsmsUtils.ConvertRequestBody<Store>(Request);
+            if (store != null && !string.IsNullOrEmpty(store.Name))
+            {
+                await _stores.AddStoreAsync(store);
+            }
+            return new JsonResult(store);
         }
     }
 }

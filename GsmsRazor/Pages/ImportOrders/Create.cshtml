@@ -9,6 +9,8 @@
 
 <h1>Create</h1>
 
+<partial name="./Modals/_CreateStoreModal" />
+
 <h4>Import Order</h4>
 @Html.AntiForgeryToken()
 <hr />
@@ -41,7 +43,8 @@
                 <span asp-validation-for="ImportOrder.CreatedDate" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Create</button>
+                <a class="btn btn-secondary" asp-page="Index">Back to Import Orders List</a>
             </div>
         </form>
     </div>
@@ -91,14 +94,14 @@
                                        name="iodDistributor" value="@cartItem.Distributor" />
                             </td>
                             <td>
-                                <div class="row">
+                                <div class="w-75 btn-group" role="group">
                                     <button data-productid=@cartItem.ProductId name="btnSaveIOD"
-                                            class="btn btn-success text-white col-md-6"
+                                            class="btn btn-success text-white mx-1 rounded"
                                             onclick="saveCartItem('@cartItem.ProductId')">
                                         <i class="fa-solid fa-floppy-disk"></i>
                                     </button>
                                     <button data-productid=@cartItem.ProductId name="btnDeleteIOD"
-                                            class="btn btn-outline-danger col-md-6"
+                                            class="btn btn-outline-danger mx-1 rounded"
                                             onclick="removeFromCart('@cartItem.ProductId')">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
@@ -155,16 +158,16 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Category.Name)
                         </td>
-                        <td>
+                        <td class="text-right">
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>
-                        <td>
+                        <td class="text-right">
                             @Html.DisplayFor(modelItem => item.StoredQuantity)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.ExpiringDate)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @if (item.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
                             {
                                 <span class="badge badge-danger p-2 ">Out of stock</span>
@@ -182,7 +185,7 @@
                                 <span class="badge badge-primary p-2">Available</span>
                             }
                         </td>
-                        <td>
+                        <td class="text-center">
                             <div class="row">
                                 <div class="col-md-12">
                                     <button class="btn btn-outline-secondary"
@@ -200,7 +203,7 @@
         </table>
     }
     <div>
-        <p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>
+        @*<p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>*@
         <div class="row">
             <div class="col-12" id="paging">
                 @for (int i = 1; i <= int.Parse(ViewData["PageCount"].ToString()); i++)
@@ -215,10 +218,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
 </div>
 
 @section Scripts {

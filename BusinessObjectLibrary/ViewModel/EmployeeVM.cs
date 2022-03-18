@@ -17,7 +17,7 @@ namespace BusinessObjectLibrary.ViewModel
         [StringLength(maximumLength: 50, MinimumLength = 6, ErrorMessage = "Password must be 6-50 characters!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "StoreId is required!")]
+        [Required(ErrorMessage = "Store is required!")]
         [Display(Name = "Store")]
         public string StoreId { get; set; }
         [Required(ErrorMessage = "Role is required!")]

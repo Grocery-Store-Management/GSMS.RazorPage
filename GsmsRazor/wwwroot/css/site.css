@@ -73,3 +73,11 @@ body {
 span.badge {
     font-size: 95% !important;
 }
+
+th {
+    text-align: center;
+}
+
+td {
+
+}

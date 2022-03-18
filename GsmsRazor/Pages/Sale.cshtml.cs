@@ -31,7 +31,7 @@ namespace GsmsRazor.Pages
         private readonly ReceiptBusinessEntity _receiptEntity;
         private readonly CustomerBusinessEntity _customerEntity;
         private SignalRHub _hub;
-        private const int pageSize = 3;
+        private const int pageSize = 10;
 
         public SaleModel(IUnitOfWork work, IHubContext<SignalRHub> contextR)
         {

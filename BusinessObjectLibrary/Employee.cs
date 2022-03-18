@@ -32,7 +32,7 @@ namespace BusinessObjectLibrary
         public DateTime CreatedDate { get; set; }
         [Display(Name = "Status")]
         public bool IsDeleted { get; set; }
-
+        [Display(Name = "Store")]
         public virtual Store Store { get; set; }
         public virtual ICollection<Receipt> Receipts { get; set; }
     }

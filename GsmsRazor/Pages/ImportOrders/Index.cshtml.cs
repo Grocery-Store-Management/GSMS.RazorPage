@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages.ImportOrders
 {
+    [Authorize(Roles = "Store Owner")]
+
     public class IndexModel : PageModel
     {
         private readonly ImportOrderBusinessEntity _importOrders;
@@ -20,12 +23,22 @@ namespace GsmsRazor.Pages.ImportOrders
             _importOrders = new ImportOrderBusinessEntity(work);
         }
 
-        public IList<ImportOrder> ImportOrder { get;set; }
+        public IList<ImportOrder> ImportOrders { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(
+            [FromQuery] string searchString,
+            [FromQuery] int? sPage
+            )
         {
-            ImportOrder = (await _importOrders.GetImportOrdersAsync(null, null, "", null, null, 0, 0))
+            int pageSize = 10;
+            int pageNumber = (sPage ?? 1);
+            ImportOrders = (await _importOrders.GetImportOrdersAsync(null, null, 
+                searchString, null, GsmsLibrary.SortType.DESC, pageNumber, pageSize))
                 .ToList();
+            int pageCount = (int)Math.Ceiling((decimal)(await _importOrders.GetAllImportOrdersAsync()).Count() / pageSize);
+
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageCount"] = pageCount;
         }
     }
 }

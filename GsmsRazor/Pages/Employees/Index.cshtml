@@ -6,19 +6,25 @@
 }
 
 <h1 class="text-info mb-5">Employee</h1>
-<form asp-page="/Employees/Index" method="get" class="m-2">
-    <div class="input-group" style="width:400px">
-        <input type="text" class="form-control" placeholder="Enter Name to search ..." name="searchString" value="@ViewBag.searchString">
-        <div class="input-group-append">
-            <button class="btn btn-secondary" type="submit">
-                <i class="fa fa-search"></i>
-            </button>
-        </div>
+<div class="row mb-4">
+    <div>
+        <form asp-page="/Employees/Index" method="get" class="m-2">
+            <div class="input-group" style="width:400px">
+                <input type="text" class="form-control" placeholder="Enter Name to search ..." name="searchString" value="@ViewBag.searchString">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-<form class="mb-3">
-    <button class="btn btn-outline-success" asp-page="Create"><i class="fa-solid fa-circle-plus"></i></button>
-</form>
+    <div class="ml-auto">
+        <form class="m-2">
+            <button class="btn btn-outline-success" asp-page="Create"><i class="fa-solid fa-circle-plus"></i> Create new Employee</button>
+        </form>
+    </div>
+</div>
 
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -51,8 +57,8 @@
                 }
                 <td class="text-center">
                     <div class="w-75 btn-group" role="group">
-                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary mx-1"><i class="fas fa-edit"></i></a>
-                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info mx-1"><i class="fa-solid fa-info"></i></a>
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary mx-1 rounded"><i class="fas fa-edit"></i></a>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info mx-1 rounded"><i class="fa-solid fa-info"></i></a>
                     </div>
                 </td>
             </tr>

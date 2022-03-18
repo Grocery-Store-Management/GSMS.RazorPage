@@ -1,10 +1,5 @@
 ﻿@model GsmsRazor.Pages.Products.ProductIndexModel
 
-<button type="button" class="btn btn-outline-primary mb-3"
-        data-toggle="modal" data-target="#createProductModal">
-    Create new Product
-</button>
-
 <div class="modal fade" id="createProductModal"
      tabindex="-1" aria-labelledby="createProductModalLabel"
      aria-hidden="true">
@@ -55,7 +50,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Create</button>
                     </div>
                 </div>
             </form>
