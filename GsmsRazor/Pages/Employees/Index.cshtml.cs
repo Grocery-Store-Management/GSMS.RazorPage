@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GsmsRazor.Pages.Employees
 {
+    [Authorize(Roles = "Store Owner")]
     public class IndexModel : PageModel
     {
         private readonly EmployeeBusinessEntity _employeeEntity;

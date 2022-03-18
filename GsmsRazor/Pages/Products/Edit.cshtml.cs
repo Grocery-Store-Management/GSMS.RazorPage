@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages.Products
 {
+    [Authorize(Roles = "Store Owner")]
     public class EditModel : PageModel
     {
         private readonly ProductBusinessEntity _products;

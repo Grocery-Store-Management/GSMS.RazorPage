@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace GsmsRazor.Pages
 {
-    [Authorize(Roles = "Cashier, Store Owner")]
+    [Authorize(Roles = "Store Owner")]
     public class ReportModel : PageModel
     {
         private readonly ReceiptBusinessEntity _receiptEntity;

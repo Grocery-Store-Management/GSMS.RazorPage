@@ -6,6 +6,7 @@ using BusinessObjectLibrary;
 using BusinessObjectLibrary.ViewModel;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GsmsRazor.Pages.Employees
 {
+    [Authorize(Roles = "Store Owner")]
     public class EditModel : PageModel
     {
         private readonly EmployeeBusinessEntity _employeeEntity;

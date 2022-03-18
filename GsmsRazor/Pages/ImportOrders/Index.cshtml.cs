@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GsmsRazor.Pages.ImportOrders
 {
+    [Authorize(Roles = "Store Owner")]
+
     public class IndexModel : PageModel
     {
         private readonly ImportOrderBusinessEntity _importOrders;

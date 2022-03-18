@@ -7,12 +7,14 @@ using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
 using GsmsLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GsmsRazor.Pages.Products
 {
+    [Authorize(Roles = "Store Owner")]
     public class ProductIndexModel : PageModel
     {
         private readonly ProductBusinessEntity _products;
