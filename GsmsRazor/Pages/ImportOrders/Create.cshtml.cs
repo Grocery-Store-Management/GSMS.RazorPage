@@ -38,24 +38,30 @@ namespace GsmsRazor.Pages.ImportOrders
             ViewData["StoreId"] = (new SelectList(stores, "Id", "Name"))
                 .Append(new SelectListItem("Add new Store", "addNewStore"));
 
-            Products = (await _products.GetAllProductsAsync()).ToList();
+            //Products = (await _products.GetAllProductsAsync()).ToList();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                ViewData["Search"] = searchString;
-                Products = Products.Where(
-                    p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
-            }
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    ViewData["Search"] = searchString;
+            //    Products = Products.Where(
+            //        p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
+            //}
 
+            ViewData["Search"] = searchString;
             int pageSize = 5;
             int pageNumber = (sPage ?? 1);
-            int pageCount = (int)Math.Ceiling((decimal)Products.Count / pageSize);
+
+            Products = (await _products.GetProductsAsync(null,
+                searchString, null, pageNumber, pageSize))
+                .ToList();
+
+            int pageCount = (int)Math.Ceiling((decimal)(await _products.GetProductsAsync(null, searchString, null, 0, 0)).Count() / pageSize);
 
             ViewData["PageNumber"] = pageNumber;
             ViewData["PageCount"] = pageCount;
 
-            Products = Products.Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).ToList();
+            //Products = Products.Skip((pageNumber - 1) * pageSize)
+            //    .Take(pageSize).ToList();
             return Page();
         }
 
