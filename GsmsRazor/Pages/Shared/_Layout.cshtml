@@ -75,7 +75,7 @@
             {
                 <div id="notesDiv"
                  class="col col-md-6 position-relative"
-                 style="max-width: 30vw; visibility: hidden; z-index: 100">
+                 style="max-width: 30vw; display: none; z-index: 100">
                     <ul id="dashboard"
                     class="list-group" style="max-width: 30vw; max-height:50vh; overflow: auto;">
                     </ul>
@@ -114,10 +114,10 @@
 
 
         function toggleNotes() {
-            if ($("#notesDiv").css("visibility") == "hidden") {
-                $("#notesDiv").css("visibility", "visible")
+            if ($("#notesDiv").css("display") == "none") {
+                $("#notesDiv").css("display", "block")
             } else {
-                $("#notesDiv").css("visibility", "hidden")
+                $("#notesDiv").css("display", "none")
             }
         }
         function addNote(event) {

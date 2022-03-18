@@ -30,7 +30,7 @@ namespace BusinessObjectLibrary
         public bool IsDeleted { get; set; }
 
         [Required(ErrorMessage = "Price must not be empty")]
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must not be greater than 0")]
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must be a positive number!!")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0.0}")]
         public decimal Price { get; set; }
 
