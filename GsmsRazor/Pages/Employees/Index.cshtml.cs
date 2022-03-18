@@ -20,7 +20,7 @@ namespace GsmsRazor.Pages.Employees
 
         public IEnumerable<Employee> Employee { get;set; }
 
-        public async Task OnGetAsync(string searchString, int? pageIndex)
+        public async Task OnGetAsync(string searchString, int? pageIndex, string CreateMessage, string UpdateMessage)
         {
             int pageSize = 3;
             if (!pageIndex.HasValue)
@@ -35,6 +35,14 @@ namespace GsmsRazor.Pages.Employees
             ViewData["pageCount"] = pageCount;
             ViewData["currentPage"] = pageIndex;
             ViewData["searchString"] = searchString;
+            if (!string.IsNullOrEmpty(CreateMessage))
+            {
+                ViewData["CreateMessage"] = CreateMessage;
+            }
+            if (!string.IsNullOrEmpty(UpdateMessage))
+            {
+                ViewData["UpdateMessage"] = UpdateMessage;
+            }
         }
     }
 }
