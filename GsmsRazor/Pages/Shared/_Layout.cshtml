@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GsmsRazor</title>
+    <title>@ViewData["Title"] - GSMS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -20,19 +20,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />
+    @*<link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />*@
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/">GsmsRazor</a>
+                <a class="navbar-brand" asp-area="" asp-page="./">GSMS</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between mr-sm-2">
                     <ul class="navbar-nav ml-auto">
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+                        @*@if (User.Identity.IsAuthenticated)*@
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
@@ -49,10 +51,14 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Employees/Index">Employee</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
+                            </li>
                             <li class="nav-item ml-4">
-                                <form method="post" asp-page="/Login" asp-page-handler="Logout">
-                                    <button type="submit" class="btn btn-link">Logout</button>
-                                </form>
+                                @*<form method="post" asp-page="/Login" asp-page-handler="Logout">
+            <button type="submit" class="btn btn-link">Logout</button>
+        </form>*@
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") == null)
@@ -67,13 +73,16 @@
         </nav>
     </header>
     <div class="container col col-md-12">
-        <div class="fixed-bottom pop-chat" style="z-index: 100;">
-            @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button id="btnShow" class="btn btn-primary" onclick="return toggleNotes()">Show Notes</button>
+        }
+        <div class="row d-flex justify-content-center">
+            @if (User.Identity.IsAuthenticated)
             {
-                <div id="notesDiv" 
-                     class="col col-md-3" 
-                     style="max-width:40vw; max-height:60vh; overflow: auto; visibility: hidden">
-                    <ul id="dashboard" class="list-group"></ul>
+                <div id="notesDiv" class="col col-md-3" style="max-width:40vw;max-height:60vh;overflow: auto; visibility: hidden">
+                    <ul id="dashboard" class="list-group">
+                    </ul>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <form method="post" class="row" onsubmit="return addNote(event)">

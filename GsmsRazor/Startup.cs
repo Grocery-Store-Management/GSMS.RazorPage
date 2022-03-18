@@ -38,10 +38,19 @@ namespace GsmsRazor
             //session
             services.AddSession(o =>
             {
-                o.IdleTimeout = TimeSpan.FromMinutes(1);
+                o.IdleTimeout = TimeSpan.FromHours(1);
             });
+
             services.AddMemoryCache();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(config =>
+                {
+                    config.Cookie.Name = "GSMSUserLoginCookie";
+                    config.LoginPath = "/";
+                    config.LogoutPath = "/Logout";
+                    config.ExpireTimeSpan = TimeSpan.FromHours(1);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

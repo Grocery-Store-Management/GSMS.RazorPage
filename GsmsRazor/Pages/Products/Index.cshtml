@@ -1,0 +1,187 @@
+﻿@page
+@model GsmsRazor.Pages.Products.ProductIndexModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<partial name="./Modals/_CreateModal" />
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form asp-action="Index" method="get">
+            <label for="searchString" class="d-inline control-label">Search: </label>
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <input id="searchString" name="searchString"
+                           class="d-inline form-control" value="@ViewData["Search"]" />
+                </div>
+                <div class="btn-block col-md-4">
+                    <div class="form-group">
+                        <input type="submit" value="Search" class="btn btn-outline-success" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr class="text-white">
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].StoredQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].ExpiringDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Status)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoredQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiringDate)
+                </td>
+                <td>
+                    @if (item.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
+                    {
+                        <span class="badge badge-danger p-2 ">Out of stock</span>
+                    }
+                    else if (item.Status == BusinessObjectLibrary.Status.ALMOST_OUT_OF_STOCK)
+                    {
+                        <span class="badge badge-warning p-2">Almost out of stock</span>
+                    }
+                    else if (item.Status == BusinessObjectLibrary.Status.BEST_SELLER)
+                    {
+                        <span class="badge badge-success p-2">Best seller</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-primary p-2">Available</span>
+                    }
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-danger" href=""
+                                    data-toggle="popover" data-action="delete" data-deleteId="@item.Id">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>
+    <div class="row">
+        <div class="col-12" id="paging">
+            @for (int i = 1; i <= int.Parse(ViewData["PageCount"].ToString()); i++)
+                {
+                    int pageNumber = int.Parse(ViewData["PageNumber"].ToString());
+                    string className = "btn mr-1 " +
+                            (pageNumber == i ? "btn-dark" : "btn-outline-dark");
+                    <a class=@className asp-page="./Index"
+                       asp-route-searchString="@ViewData["Search"]"
+                       asp-route-sPage="@i">@i</a>
+                }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@*<script src="~/js/products/deletepopover.js"></script>*@
+<script>
+    $(() => {
+        $("[data-toggle='popover'][data-action='delete']").popover({
+            container: 'body',
+            title: 'Delete Product',
+            html: true,
+            placement: 'top',
+            sanitize: false,
+            content: function (e) {
+                var deleteId = $(this).data("deleteid");
+                return `
+<div>
+    <div>
+        Are you sure that you want to delete this product?
+    </div>
+    <form method="post" class="d-inline" action="/Products?handler=Delete">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="deletedProductId" value="${deleteId}" />
+        <input type="submit" class="btn btn-outline-danger btn-sm" value="Delete" />
+    </form>
+    <button class="btn btn-light btn-sm" onclick="$(this).parents('.popover').popover('hide')">Cancel</button>
+</div>
+`
+            }
+        });
+        $("[data-toggle='popover'][data-action='delete']").on('click', (e) => {
+            $("[data-toggle='popover'][data-action='delete']")
+                .not(e.target).popover('hide');
+        });
+    });
+</script>
+
+@if (TempData["CreateProductSuccessfully"] != null &&
+  (bool)TempData["CreateProductSuccessfully"] == true)
+{
+    <script>
+        toastr.options.showEasing = 'swing';
+        toastr.success('Product created!', "Success");
+    </script>
+}
+
+@if (TempData["DeleteProductSuccessfully"] != null &&
+  (bool)TempData["DeleteProductSuccessfully"] == true)
+{
+    <script>
+        toastr.options.showEasing = 'swing';
+        toastr.success('Product deleted!', "Success");
+    </script>
+}
+
+@if (TempData["UpdateProductSuccessfully"] != null &&
+  (bool)TempData["UpdateProductSuccessfully"] == true)
+{
+    <script>
+        toastr.options.showEasing = 'swing';
+        toastr.success('Product updated!', "Success");
+    </script>
+}

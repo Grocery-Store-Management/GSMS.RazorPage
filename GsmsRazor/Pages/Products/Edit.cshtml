@@ -1,0 +1,108 @@
+﻿@page
+@model GsmsRazor.Pages.Products.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Product.Id" />
+            <div class="form-group">
+                <label asp-for="Product.Name" class="control-label"></label>
+                <input asp-for="Product.Name" class="form-control" />
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CategoryId" class="control-label"></label>
+                <select asp-for="Product.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                <label id="categoryNameLabel">@ViewData["Category"]</label>
+            </div>
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Product.IsDeleted" /> @Html.DisplayNameFor(model => model.Product.IsDeleted)
+            </label>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="Product.Status" class="control-label"></label>
+            <select asp-for="Product.Status" class="form-control"></select>
+            <span asp-validation-for="Product.Status" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.StoredQuantity" class="control-label"></label>
+                <input asp-for="Product.StoredQuantity" class="form-control" />
+                <span asp-validation-for="Product.StoredQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ExpiringDate" class="control-label"></label>
+                <input asp-for="Product.ExpiringDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm:ss}"/>
+                <span asp-validation-for="Product.ExpiringDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<div class="modal fade" id="createCategoryModal"
+     tabindex="-1" aria-labelledby="createCategoryModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCategoryModalLabel">
+                    Create new Category
+                </h5>
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    @*<partial name="~/Pages/Products/_Create.cshtml" />*@
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Product.Category.Name" class="control-label"></label>
+                                <input asp-for="Product.Category.Name" class="form-control" value="" />
+                                <span asp-validation-for="Product.Category.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <input type="button" value="Create Category"
+                               class="btn btn-outline-info" id="btnCreateCategory" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/js/products/edit.js"></script>

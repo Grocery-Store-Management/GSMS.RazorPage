@@ -13,7 +13,12 @@ namespace BusinessObjectLibrary
         }
         [Required]
         public string Id { get; set; }
-        [Required]
+
+        [Display(Name = "Category Name")]
+        [Required(ErrorMessage = "Category name is required!!")]
+        [RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Category name contains invalid characters!!")]
+        [MinLength(6, ErrorMessage = "Category name is required at least 6 characters!!!")]
+        [MaxLength(32, ErrorMessage = "Category name is limited to 32 characters!!")]
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
 
