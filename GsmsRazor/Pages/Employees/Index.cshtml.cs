@@ -22,7 +22,7 @@ namespace GsmsRazor.Pages.Employees
 
         public async Task OnGetAsync(string searchString, int? pageIndex, string CreateMessage, string UpdateMessage)
         {
-            int pageSize = 3;
+            int pageSize = 10;
             if (!pageIndex.HasValue)
             {
                 pageIndex = 1;

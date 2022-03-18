@@ -3,55 +3,56 @@
 @{
     ViewData["Title"] = "Login";
 }
-<link rel="stylesheet" href="./css/Login.css" />
+@section Styles {
+    <link rel="stylesheet" href="./css/Login.css" />
+    }
+    <div class="col-lg-12 p-2 d-flex justify-content-center">
+        <div class="col-md-8 p-2">
+            <h1 class="col-md-12 text-lg-center mb-3">
+                Welcome to GSMS
+            </h1>
+            @*<div class="col-md-12 text-lg-center mb-3 font-weight-bold">Login via</div>*@
 
-<div class="col-lg-12 p-2 d-flex justify-content-center">
-    <div class="col-md-8 p-2">
-        <h1 class="col-md-12 text-lg-center mb-3">
-            Welcome to GSMS
-        </h1>
-        <div class="col-md-12 text-lg-center mb-3 font-weight-bold">Login via</div>
-
-        <div class="col-md-12 d-flex justify-content-center align-content-center">
-            <form class="form col-md-8" method="post" asp-page="Login" accept-charset="UTF-8">
-                <div class="form-group">
-                    <label class="sr-only" asp-for="@Model.Username">Username</label>
-                    <input type="text" asp-for="@Model.Username" class="form-control" placeholder="Username">
-                    @*@if (ViewData["Error"] == null)
-                    {
-                        <span class="text-danger" asp-validation-for="@Model.Username"></span>
-                    }*@
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" asp-for="@Model.Password">Password</label>
-                    <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
-                    @*@if (ViewData["Error"] == null)
-                    {
-                        <span class="text-danger" asp-validation-for="@Model.Password"></span>
-                    }*@
-                </div>
-                @if (ViewData["Error"] != null)
-                {
+            <div class="col-md-12 d-flex justify-content-center align-content-center">
+                <form class="form col-md-8" method="post" asp-page="Login" accept-charset="UTF-8">
                     <div class="form-group">
-                        <span class="text-danger">@ViewData["Error"]</span>
+                        <label class="sr-only" asp-for="@Model.Username">Username</label>
+                        <input type="text" asp-for="@Model.Username" class="form-control" placeholder="Username">
+                        @*@if (ViewData["Error"] == null)
+                            {
+                                <span class="text-danger" asp-validation-for="@Model.Username"></span>
+                            }*@
                     </div>
-                }
-                <div class="form-group">
-                    <button type="submit" class="btn btn-block btn-login">Sign in</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-12 text-lg-center mt-3 mb-3 font-weight-bold">or</div>
-        <div class="social-buttons col-md-12 text-lg-center">
-            <a href="#" class="btn btn-gg pl-lg-4 pr-lg-4 mr-3">
-                <i class="fa-brands fa-google"></i> Google
-            </a>
-            <a href="#" class="btn btn-fb pl-lg-4 pr-lg-4 mr-3">
-                <i class="fa-brands fa-facebook"></i> Facebook
-            </a>
-            <a href="#" class="btn btn-gh pl-lg-4 pr-lg-4">
-                <i class="fa-brands fa-github"></i> Github
-            </a>
+                    <div class="form-group">
+                        <label class="sr-only" asp-for="@Model.Password">Password</label>
+                        <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
+                        @*@if (ViewData["Error"] == null)
+                            {
+                                <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                            }*@
+                    </div>
+                    @if (ViewData["Error"] != null)
+                    {
+                        <div class="form-group">
+                            <span class="text-danger">@ViewData["Error"]</span>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-login">Sign in</button>
+                    </div>
+                </form>
+            </div>
+            @*<div class="col-md-12 text-lg-center mt-3 mb-3 font-weight-bold">or</div>
+            <div class="social-buttons col-md-12 text-lg-center">
+                <a href="#" class="btn btn-gg pl-lg-4 pr-lg-4 mr-3">
+                    <i class="fa-brands fa-google"></i> Google
+                </a>
+                <a href="#" class="btn btn-fb pl-lg-4 pr-lg-4 mr-3">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </a>
+                <a href="#" class="btn btn-gh pl-lg-4 pr-lg-4">
+                    <i class="fa-brands fa-github"></i> Github
+                </a>
+            </div>*@
         </div>
     </div>
-</div>

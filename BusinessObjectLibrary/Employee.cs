@@ -33,7 +33,7 @@ namespace BusinessObjectLibrary
         [Required(ErrorMessage = "Is Deleted is required!")]
         [Display(Name = "Status")]
         public bool IsDeleted { get; set; }
-
+        [Display(Name = "Store")]
         public virtual Store Store { get; set; }
         public virtual ICollection<Receipt> Receipts { get; set; }
     }

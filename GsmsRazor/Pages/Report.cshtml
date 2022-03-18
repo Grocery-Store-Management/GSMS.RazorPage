@@ -14,7 +14,7 @@
     <form asp-page="/Report" method="get">
         <h5>
             Report of month:
-            <select class="custom-select-sm" name="reportMonth">
+            <select class="custom-select-sm form-control-sm" name="reportMonth">
                 @{
                     for (int i = 1; i <= 12; i++)
                     {
@@ -30,7 +30,7 @@
                 }
             </select>
             year:
-            <select class="custom-select-sm" name="reportYear">
+            <select class="custom-select-sm form-control-sm" name="reportYear">
                 @{
                     if (ViewBag.periodFiveYearOfBusiness != null)
                     {
