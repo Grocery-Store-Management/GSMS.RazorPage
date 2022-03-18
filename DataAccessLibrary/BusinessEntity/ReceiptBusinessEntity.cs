@@ -14,9 +14,10 @@ namespace DataAccessLibrary.BusinessEntity
         {
             this.work = work;
         }
-        public async Task<Receipt> AddReceiptAsync(Receipt newReceipt)
+        public async Task<Product> AddReceiptAsync(Receipt newReceipt)
         {
             Store store = await work.Stores.GetAsync(newReceipt.StoreId);
+            Product prod = null;
             if (store == null)
             {
                 throw new Exception("Store does not exist");
@@ -51,12 +52,13 @@ namespace DataAccessLibrary.BusinessEntity
                     receiptDetail.CreatedDate = DateTime.Now;
                     await work.ReceiptDetails.AddAsync(receiptDetail);
                     product.StoredQuantity -= receiptDetail.Quantity;
+                    prod = product;
                     work.Products.Update(product);
                 }
             }
             await work.Receipts.AddAsync(newReceipt);
             await work.Save();
-            return newReceipt;
+            return prod;
         }
 
         public async Task<IEnumerable<Receipt>> GetReceiptsBySaleMonthYearAsync(int saleMonth, int saleYear)
