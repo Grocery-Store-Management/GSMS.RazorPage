@@ -82,7 +82,7 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <form method="post" class="row" onsubmit="return addNote(event)">
-                                <input name="content" type="text" class="col col-md-8" />
+                                <input id="txtContent" name="content" type="text" class="col col-md-8" />
                                 <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
                             </form>
                         </li>
@@ -133,6 +133,7 @@
                 },
                 data: { content: content },
                 success: (result) => {
+                    $("#txtContent").val("")
                 }, error: (error) => {
                     console.log(error)
                 }
@@ -152,6 +153,8 @@
                 },
                 data: { noteId: content },
                 success: (result) => {
+                    $("#txtContent").val("")
+
                 }, error: (error) => {
                     console.log(error)
                 }
