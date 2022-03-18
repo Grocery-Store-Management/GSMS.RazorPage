@@ -28,7 +28,7 @@ namespace DataAccessLibrary.BusinessEntity
             Store store = await work.Stores.GetAsync(newImportOrder.StoreId);
             if (store == null)
             {
-                throw new Exception("Store is not existed!!");
+                throw new Exception("Store does not exist!");
             }
             newImportOrder.Id = GsmsUtils.CreateGuiId();
             newImportOrder.CreatedDate = DateTime.Now;
@@ -41,7 +41,7 @@ namespace DataAccessLibrary.BusinessEntity
                     Product product = await work.Products.GetAsync(importOrderDetail.ProductId);                 
                     if (product == null || product.IsDeleted == true)
                     {
-                        throw new Exception("Product is not existed!!");
+                        throw new Exception("Product does not exist!");
                     }
                     importOrderDetail.OrderId = newImportOrder.Id;
 

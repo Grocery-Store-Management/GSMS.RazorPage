@@ -105,7 +105,7 @@ namespace DataAccessLibrary.BusinessEntity
             Product product = await work.Products.GetAsync(updatedProduct.Id);
             if (product == null || product.IsDeleted == true)
             {
-                throw new Exception("Product is not existed!!");
+                throw new Exception("Product does not exist!");
             }
             await CheckProduct(updatedProduct);
             product.Name = updatedProduct.Name;
@@ -156,7 +156,7 @@ namespace DataAccessLibrary.BusinessEntity
             Category category = await work.Categories.GetAsync(product.CategoryId);
             if (category == null)
             {
-                throw new Exception("Category is not existed!!");
+                throw new Exception("Category does not exist!");
             }
             if (product.Price < 0)
             {
@@ -173,7 +173,7 @@ namespace DataAccessLibrary.BusinessEntity
             Product product = await work.Products.GetAsync(id);
             if (product == null)
             {
-                throw new Exception("Product is not existed!!");
+                throw new Exception("Product does not exist!");
             }
             //work.Products.Delete(product);
             product.IsDeleted = true;

@@ -26,7 +26,7 @@ namespace DataAccessLibrary.BusinessEntity
             ImportOrder importOrder = await work.ImportOrders.GetAsync(importOrderId);
             if (importOrder == null || importOrder.IsDeleted == true)
             {
-                throw new Exception("Import order is not existed!!");
+                throw new Exception("Import order does not exist!");
             }
             string sql = "select * from ImportOrderDetail where OrderId = '" + importOrderId + "'";
             importOrderDetails = await work.ImportOrderDetails.ExecuteQueryAsync(sql);
