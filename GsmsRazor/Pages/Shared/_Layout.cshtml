@@ -53,8 +53,8 @@
                             </li>
                             <li class="nav-item ml-4">
                                 @*<form method="post" asp-page="/Login" asp-page-handler="Logout">
-                    <button type="submit" class="btn btn-link">Logout</button>
-                </form>*@
+                                    <button type="submit" class="btn btn-link">Logout</button>
+                                    </form>*@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
                             </li>
                         }
@@ -69,39 +69,29 @@
             </div>
         </nav>
     </header>
-    <div class="container col col-md-12">
-        @*@if (User.Identity.IsAuthenticated)
-        {
-            <button id="btnShow" class="btn btn-primary" onclick="return toggleNotes()">Show Notes</button>
-        }*@
-        <div class="row d-flex justify-content-center">
-            @*@if (User.Identity.IsAuthenticated)
-                {
-                    <div id="notesDiv" class="col col-md-3" style="max-width:40vw;max-height:60vh;overflow: auto; visibility: hidden">
-                        <ul id="dashboard" class="list-group">
-                        </ul>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <form method="post" class="row" onsubmit="return addNote(event)">
-                                    <input name="content" type="text" class="col col-md-6" />
-                                    <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                <button id="btnShow"
-                        class="btn btn-primary col-md-1 ml-3 mb-3"
-                        onclick="return toggleNotes()">
-                    Show Notes
-                </button>*@
+    <div class="container col col-md-12 row">
+        <div class="col col-md-3 justify-content-center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button id="btnShow" class="btn btn-primary" onclick="return toggleNotes()">Show Notes</button>
+                <div id="notesDiv" class="col col-md-12" style="max-width:40vw;max-height:60vh;overflow: auto; display:none;">
+                    <ul id="dashboard" class="list-group">
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <form method="post" class="row" onsubmit="return addNote(event)">
+                                <input name="content" type="text" class="col col-md-6" />
+                                <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            }
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col col-md-9">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
+        <div id="mainDiv" class="col col-md-12">
+            <main role="main" class="pb-3 col-col-12">
+                @RenderBody()
+            </main>
         </div>
     </div>
 
@@ -113,11 +103,15 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
+
+
         function toggleNotes() {
-            if ($("#notesDiv").css("visibility") == "hidden") {
-                $("#notesDiv").css("visibility", "visible")
+            if ($("#notesDiv").css("display") == "none") {
+                $("#notesDiv").css("display", "block")
+        $("#mainDiv").attr('class', 'col col-md-9');
             } else {
-                $("#notesDiv").css("visibility", "hidden")
+                $("#notesDiv").css("display", "none")
+        $("#mainDiv").attr('class', 'col col-md-12');
             }
         }
         function addNote(event) {
