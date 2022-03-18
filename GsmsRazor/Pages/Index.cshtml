@@ -9,7 +9,11 @@
     @if (@HttpContext.Session.GetString("NAME") != null)
     {
         <h1 class="display-4">Welcome, @HttpContext.Session.GetString("NAME").</h1>
-
+        <a asp-page="/Profile" 
+           asp-route-id="@HttpContext.Session.GetString("UID")" 
+           class="btn btn-primary mx-1 mt-4">
+            <i class="fas fa-edit"></i> Edit Your Profile
+        </a>
     }
     @if (@HttpContext.Session.GetString("NAME") == null)
     {
