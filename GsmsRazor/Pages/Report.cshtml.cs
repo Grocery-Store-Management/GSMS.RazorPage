@@ -7,12 +7,14 @@ using BusinessObjectLibrary;
 using BusinessObjectLibrary.ViewModel;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
 namespace GsmsRazor.Pages
 {
+    [Authorize(Roles = "Cashier, Store Owner")]
     public class ReportModel : PageModel
     {
         private readonly ReceiptBusinessEntity _receiptEntity;
