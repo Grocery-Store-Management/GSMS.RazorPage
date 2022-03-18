@@ -69,7 +69,7 @@ namespace GsmsRazor.Pages.Employees
             }
             await _employeeEntity.UpdateEmployeeAsync(Employee);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { UpdateMessage = "Success"});
         }
     }
 }
