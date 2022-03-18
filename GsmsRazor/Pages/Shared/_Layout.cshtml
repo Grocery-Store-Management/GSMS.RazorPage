@@ -54,7 +54,7 @@
                             <li class="nav-item ml-4">
                                 @*<form method="post" asp-page="/Login" asp-page-handler="Logout">
                                     <button type="submit" class="btn btn-link">Logout</button>
-                                </form>*@
+                                    </form>*@
                                 <a class="nav-link text-danger" asp-area="" asp-page="/Logout">Logout</a>
                             </li>
                         }
@@ -73,11 +73,11 @@
         <div class="fixed-bottom pop-chat" style="max-width: 30vw;">
             @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
             {
-                <div id="notesDiv" 
-                     class="col col-md-6 position-relative" 
-                     style="max-width: 30vw; visibility: hidden; z-index: 100">
-                    <ul id="dashboard" 
-                        class="list-group" style="max-width: 30vw; max-height:50vh; overflow: auto;">
+                <div id="notesDiv"
+                 class="col col-md-6 position-relative"
+                 style="max-width: 30vw; visibility: hidden; z-index: 100">
+                    <ul id="dashboard"
+                    class="list-group" style="max-width: 30vw; max-height:50vh; overflow: auto;">
                     </ul>
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -88,10 +88,10 @@
                         </li>
                     </ul>
                 </div>
-                <button id="btnShow" 
-                        class="btn btn-primary col-md-4 ml-3 mb-3 position-relative"
-                        style="z-index: 100;"
-                        onclick="return toggleNotes()">
+                <button id="btnShow"
+                    class="btn btn-primary col-md-4 ml-3 mb-3 position-relative"
+                    style="z-index: 100;"
+                    onclick="return toggleNotes()">
                     Show Notes
                 </button>
             }
@@ -114,12 +114,10 @@
 
 
         function toggleNotes() {
-            if ($("#notesDiv").css("display") == "none") {
-                $("#notesDiv").css("display", "block")
-        $("#mainDiv").attr('class', 'col col-md-9');
+            if ($("#notesDiv").css("visibility") == "hidden") {
+                $("#notesDiv").css("visibility", "visible")
             } else {
-                $("#notesDiv").css("display", "none")
-        $("#mainDiv").attr('class', 'col col-md-12');
+                $("#notesDiv").css("visibility", "hidden")
             }
         }
         function addNote(event) {
