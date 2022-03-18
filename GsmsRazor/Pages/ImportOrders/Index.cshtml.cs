@@ -30,7 +30,7 @@ namespace GsmsRazor.Pages.ImportOrders
             [FromQuery] int? sPage
             )
         {
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNumber = (sPage ?? 1);
             ImportOrders = (await _importOrders.GetImportOrdersAsync(null, null, 
                 searchString, null, GsmsLibrary.SortType.DESC, pageNumber, pageSize))
