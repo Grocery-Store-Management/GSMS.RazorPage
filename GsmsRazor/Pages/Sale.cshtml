@@ -8,8 +8,8 @@
     List<CartItem> cart = HttpContext.Session.GetData<List<CartItem>>("CART");
 }
 
-<div class="container">
-    <div class="row ">
+<div class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+    <div class="row ml-5">
         <div class="col-md-4 offset-md-4 modal fade in" id="customerModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -19,7 +19,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="customerForm" method="post" class="col ml-3 mt-3" onsubmit="return register(event)">
+                    <form id="customerForm" method="post" class="col ml-4 mt-3" onsubmit="return register(event)">
                         <div class="form-group col col-md-10">
                             <label asp-for="Customer.PhoneNumber" class="control-label"></label>
                             <input id="txtPhone" asp-for="Customer.PhoneNumber" class="form-control" />
@@ -32,7 +32,7 @@
 
                         </div>
                         <input id="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
-                        <div class="form-group col col-md-4">
+                        <div class="form-group col-md-5 ml-auto mt-4 mb-4">
                             <input type="submit" value="Create" class="btn btn-primary" />
                         </div>
                     </form>
@@ -40,18 +40,24 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#customerModal">
-        Register an account
-    </button>
     <div class="text-danger">@TempData["RegError"]</div>
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="row">
-        <div class="col col-7">
+    <div class="row col-md-12">
+        <div class="col col-md-7">
             <h3>Product List</h3>
-            <form asp-page="/Sale" method="get" class="m-2">
-                <input name="searchString" class="form-control mb-2" placeholder="Search product..." value="@ViewBag.searchString" />
-                <button class="btn btn-primary mb-2" type="submit">Search</button>
-            </form>
+            <div class="row m-2">
+                <form asp-page="/Sale" method="get" class="row ml-1">
+                    <input name="searchString" class="form-control col-md-8" placeholder="Search product..." value="@ViewBag.searchString" />
+                    <button class="btn btn-primary ml-2 mb-4" type="submit">Search</button>
+                </form>
+                <button type="button"
+                        class="btn btn-outline-success mb-4 ml-auto"
+                        data-toggle="modal"
+                        data-target="#customerModal">
+                    Register an account
+                </button>
+            </div>
+            
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr class="text-white">
@@ -69,12 +75,12 @@
                             {
                                 <tr>
                                     <td>@product.Name</td>
-                                    <td>@product.Price</td>
+                                    <td class="text-center">@Math.Round(product.Price)</td>
                                     @{
                                         if (product.Status == BusinessObjectLibrary.Status.AVAILABLE)
                                         {
-                                            <td><span class="badge badge-primary p-2">Available</span></td>
-                                            <td>
+                                            <td><span class="badge badge-primary p-2 text-center">Available</span></td>
+                                            <td class="d-flex justify-content-center">
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
                                                     <i class="fa-solid fa-basket-shopping"></i>
@@ -83,12 +89,12 @@
                                         }
                                         else if (product.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
                                         {
-                                            <td><span class="badge badge-danger p-2">Out of stock</span></td>
+                                            <td><span class="badge badge-danger p-2 text-center">Out of stock</span></td>
                                         }
                                         else if (product.Status == BusinessObjectLibrary.Status.ALMOST_OUT_OF_STOCK)
                                         {
-                                            <td><span class="badge badge-warning p-2">Almost out of stock</span></td>
-                                            <td>
+                                            <td><span class="badge badge-warning p-2 text-center">Almost out of stock</span></td>
+                                            <td class="d-flex justify-content-center">
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
                                                     <i class="fa-solid fa-basket-shopping"></i>
@@ -97,8 +103,8 @@
                                         }
                                         else
                                         {
-                                            <td><span class="badge badge-success p-2">Best seller</span></td>
-                                            <td>
+                                            <td><span class="badge badge-success p-2 text-center">Best seller</span></td>
+                                            <td class="d-flex justify-content-center">
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
                                                     <i class="fa-solid fa-basket-shopping"></i>
@@ -130,36 +136,36 @@
             <h3>
                 Receipt details
             </h3>
-            <div class="row justify-content-around">
-                <div class="col-4">
-                    <a class="btn btn-primary font-weight-bold text-white pl-5 pr-5 pt-3 pb-3"
-                       asp-page="/Sale"
-                       asp-page-handler="InvoiceExport"
-                       asp-route-type="InvoiceExport"
-                       >BILL</a>
-                </div>
-                <div class="col-4">
-                    <a class="btn btn-warning font-weight-bold text-white pl-4 pr-4 pt-2 pb-2"
-                       asp-page="/Sale"
-                       asp-page-handler="InvoiceExport"
-                       asp-route-type="PayByPoints"
-                       >PAY BY POINT</a>
+            <div class="row mb-2">
+                <p class="mt-2 col-md-7" style="font-size:20px">
+                    Total:
+                    @if (ViewBag.totalPrice != null)
+                    {
+                        <span class="text-primary" id="TotalPrice">@ViewBag.totalPrice</span>
+                    }
+                    else
+                    {
+                        <span class="text-primary" id="TotalPrice">0</span>
+
+                    }
+                </p>
+                <div class="col-md-5 row">
+                    <div class="mb-4 ml-auto">
+                        <a class="btn btn-primary font-weight-bold pl-5 pr-5"
+                           asp-page="/Sale"
+                           asp-page-handler="InvoiceExport"
+                           asp-route-type="InvoiceExport">$ PAY</a>
+                    </div>
+                    <div class="mb-4 ml-auto">
+                        <a class="btn btn-warning font-weight-bold"
+                           asp-page="/Sale"
+                           asp-page-handler="InvoiceExport"
+                           asp-route-type="PayByPoints">PAY BY POINT</a>
+                    </div>
                 </div>
             </div>
 
 
-            <p class="mt-2" style="font-size:20px">
-                Total:
-                @if (ViewBag.totalPrice != null)
-                {
-                    <span class="text-primary" id="TotalPrice">@ViewBag.totalPrice</span>
-                }
-                else
-                {
-                    <span class="text-primary" id="TotalPrice">0</span>
-
-                }
-            </p>
 
             <div class="overflow-auto" style="height:45vh">
                 @if (ViewBag.Error != null)
