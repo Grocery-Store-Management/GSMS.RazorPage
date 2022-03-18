@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="CorePush" Version="3.0.10" />
     <PackageReference Include="FireSharp" Version="2.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
