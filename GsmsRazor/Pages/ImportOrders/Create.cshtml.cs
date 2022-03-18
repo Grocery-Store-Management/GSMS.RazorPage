@@ -47,7 +47,7 @@ namespace GsmsRazor.Pages.ImportOrders
                     p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
             }
 
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNumber = (sPage ?? 1);
             int pageCount = (int)Math.Ceiling((decimal)Products.Count / pageSize);
 

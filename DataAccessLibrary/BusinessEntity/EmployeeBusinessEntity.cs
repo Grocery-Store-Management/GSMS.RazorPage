@@ -49,7 +49,7 @@ namespace DataAccessLibrary.BusinessEntity
             Store store = await work.Stores.GetAsync(employee.StoreId);
             if (store == null)
             {
-                throw new Exception("Store is not existed!!");
+                throw new Exception("Store does not exist!");
             }
         }
         public async Task<Employee> AddEmployeeAsync(Employee newEmployee)
@@ -68,7 +68,7 @@ namespace DataAccessLibrary.BusinessEntity
             Employee employee = await work.Employees.GetAsync(updatedEmployee.Id);
             //if (employee == null || employee.IsDeleted == true)
             //{
-            //    throw new Exception("Employee is not existed!!");
+            //    throw new Exception("Employee does not exist!");
             //}
             await CheckEmployee(updatedEmployee);
             employee.Name = updatedEmployee.Name;

@@ -27,7 +27,7 @@ namespace DataAccessLibrary.BusinessEntity
             Receipt receipt = await work.Receipts.GetAsync(receiptId);
             if (receipt == null || receipt.IsDeleted == true)
             {
-                throw new Exception("Receipt is not existed!!");
+                throw new Exception("Receipt does not exist!");
             }
             string sql = "select * from ReceiptDetail where ReceiptId = '" + receiptId + "'";
             receiptDetails = await work.ReceiptDetails.ExecuteQueryAsync(sql);
