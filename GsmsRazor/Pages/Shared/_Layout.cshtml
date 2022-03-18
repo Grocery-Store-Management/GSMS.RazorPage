@@ -118,15 +118,10 @@
 
 
         function toggleNotes() {
-            //if ($("#notesDiv").css("visibility") == "hidden") {
-            //    $("#notesDiv").css("visibility", "visible")
-            //} else {
-            //    $("#notesDiv").css("visibility", "hidden")
-            //
             if ($("#notesDiv").css("display") == "none") {
-                $("#notesDiv").show();
+                $("#notesDiv").css("display", "block")
             } else {
-                $("#notesDiv").hide();
+                $("#notesDiv").css("display", "none")
             }
         }
         function addNote(event) {
