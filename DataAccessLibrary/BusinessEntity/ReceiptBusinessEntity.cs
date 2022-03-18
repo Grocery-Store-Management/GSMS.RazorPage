@@ -41,12 +41,11 @@ namespace DataAccessLibrary.BusinessEntity
                     }
                     if(receiptDetail.Quantity == product.StoredQuantity)
                     {
-                        //product.Status = Status.OUT_OF_STOCK;
-                        product.Status = 2; //out of stock
+                        product.Status = Status.OUT_OF_STOCK;
                     } else if(product.StoredQuantity - receiptDetail.Quantity < 10 && product.StoredQuantity - receiptDetail.Quantity > 0)
                     {
-                        //product.Status = Status.ALMOST_OUT_OF_STOCK;
-                        product.Status = 3; //almost out of stock
+                        product.Status = Status.ALMOST_OUT_OF_STOCK;
+                        //product.Status = 3; //almost out of stock
                     }
                     receiptDetail.ReceiptId = newReceipt.Id;
                     receiptDetail.CreatedDate = DateTime.Now;

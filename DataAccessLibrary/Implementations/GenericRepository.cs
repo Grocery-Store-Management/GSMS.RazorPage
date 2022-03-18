@@ -1,8 +1,10 @@
 ﻿using BusinessObjectLibrary;
 using DataAccessLibrary.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccessLibrary.Implementations
@@ -52,6 +54,23 @@ namespace DataAccessLibrary.Implementations
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(params string[] otherEntities)
+        {
+            IQueryable<T> entities = null;
+            foreach (string other in otherEntities)
+            {
+                if (entities == null)
+                {
+                    entities = dbSet.Include(other);
+                }
+                else
+                {
+                    entities = entities.Include(other);
+                }
+            }
+            return await entities.ToListAsync();
         }
 
         public void Update(T entity)
