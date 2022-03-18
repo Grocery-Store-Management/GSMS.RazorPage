@@ -164,7 +164,7 @@ namespace DataAccessLibrary.BusinessEntity
             }
             if (product.StoredQuantity < 0)
             {
-                throw new Exception("Stored Quantity must be a positive number!!");
+                throw new Exception("Stored Quantity must not be greater than 0");
             }
         }
 

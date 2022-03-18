@@ -16,19 +16,19 @@ namespace BusinessObjectLibrary
         public string Id { get; set; }
 
         [Display(Name = "Import Order Name")]
-        [Required(ErrorMessage = "Import Order name is required!!")]
-        [RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Import Order name contains invalid characters!!")]
-        [MinLength(6, ErrorMessage = "Import Order name is required at least 6 characters!!!")]
-        [MaxLength(32, ErrorMessage = "Import Order name is limited to 32 characters!!")]
+        [Required(ErrorMessage = "Import Order name must not be empty")]
+        [RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Import Order must not contain special characters")]
+        [MinLength(6, ErrorMessage = "Import Order name must be between 6-32 characters")]
+        [MaxLength(32, ErrorMessage = "Import Order name must be between 6-32 characters")]
         public string Name { get; set; }
 
         [Display(Name = "Store")]
-        [Required(ErrorMessage = "Store is required!!")]
+        [Required(ErrorMessage = "Store must not be empty")]
         public string StoreId { get; set; }
         public bool IsDeleted { get; set; }
 
         [Display(Name = "Imported Date")]
-        [Required(ErrorMessage = "Imported Date is required!!")]
+        [Required(ErrorMessage = "Imported Date must not be empty")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime CreatedDate { get; set; }

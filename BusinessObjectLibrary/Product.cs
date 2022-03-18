@@ -17,26 +17,26 @@ namespace BusinessObjectLibrary
         public string Id { get; set; }
 
         [Display(Name = "Product Name")]
-        [Required(ErrorMessage = "Product name is required!!")]
+        [Required(ErrorMessage = "Product name must not be empty")]
         [RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Product name contains invalid characters!!")]
         [MinLength(6, ErrorMessage = "Product name is required at least 6 characters!!!")]
         [MaxLength(32, ErrorMessage = "Product name is limited to 32 characters!!")]
         public string Name { get; set; }
 
         [Display(Name = "Category")]
-        [Required(ErrorMessage = "Category is required!!")]
+        [Required(ErrorMessage = "Category must not be empty")]
         public string CategoryId { get; set; }
 
         public bool IsDeleted { get; set; }
         public Status Status { get; set; }
 
-        [Required(ErrorMessage = "Price is required!!")]
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must be a positive number!!")]
+        [Required(ErrorMessage = "Price must not be empty")]
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must be greater than 0")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0.0}")]
         public decimal Price { get; set; }
 
         [Display(Name = "Expired Date")]
-        [Required(ErrorMessage = "Expired Date is required!!")]
+        [Required(ErrorMessage = "Expired Date must not be empty")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime ExpiringDate { get; set; }

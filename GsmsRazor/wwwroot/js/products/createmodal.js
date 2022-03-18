@@ -12,7 +12,7 @@
     $("#btnCreateCategory").on('click', function () {
         var categoryName = $("#NewProduct_Category_Name").val();
         if (!categoryName) {
-            $("#createCategoryModal").find("form").find("span").text("Category name is required!!");
+            $("#createCategoryModal").find("form").find("span").text("Category name must not be empty");
             return;
         }
         if (categoryName.length < 6) {
