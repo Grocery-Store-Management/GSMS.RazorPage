@@ -40,9 +40,6 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/QR">QR</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Report">Report</a>
                             </li>
                             <li class="nav-item">
@@ -51,10 +48,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/ImportOrders/Index">Import Orders</a>
+                            </li>
                             <li class="nav-item ml-4">
                                 @*<form method="post" asp-page="/Login" asp-page-handler="Logout">
-                                        <button type="submit" class="btn btn-link">Logout</button>
-                                    </form>*@
+                    <button type="submit" class="btn btn-link">Logout</button>
+                </form>*@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
                             </li>
                         }
@@ -70,10 +70,10 @@
         </nav>
     </header>
     <div class="container col col-md-12">
-        @if (User.Identity.IsAuthenticated)
+        @*@if (User.Identity.IsAuthenticated)
         {
             <button id="btnShow" class="btn btn-primary" onclick="return toggleNotes()">Show Notes</button>
-        }
+        }*@
         <div class="row d-flex justify-content-center">
             @*@if (User.Identity.IsAuthenticated)
                 {
