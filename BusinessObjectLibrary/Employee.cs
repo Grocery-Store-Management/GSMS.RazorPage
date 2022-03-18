@@ -13,24 +13,23 @@ namespace BusinessObjectLibrary
             Receipts = new HashSet<Receipt>();
         }
 
-        [Required(ErrorMessage ="Id is required!")]
+        [Required(ErrorMessage ="Id must not be empty!")]
         public string Id { get; set; }
-        [Required(ErrorMessage = "Name is required!")]
-        [StringLength(maximumLength:50, MinimumLength =1, ErrorMessage ="Name must be 1-50 characters!")]
+        [Required(ErrorMessage = "Name must not be empty!")]
+        [StringLength(maximumLength:50, MinimumLength =1, ErrorMessage ="Name must be between 1-50 characters!")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Password is required!")]
-        [StringLength(maximumLength: 50, MinimumLength = 6, ErrorMessage = "Password must be 6-50 characters!")]
+        [Required(ErrorMessage = "Password must not be empty!")]
+        [StringLength(maximumLength: 50, MinimumLength = 6, ErrorMessage = "Password must be between 6-50 characters!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "StoreId is required!")]
+        [Required(ErrorMessage = "StoreId must not be empty!")]
         [Display(Name="Store")]
         public string StoreId { get; set; }
-        [Required(ErrorMessage = "Role is required!")]
+        [Required(ErrorMessage = "Role must not be empty!")]
         public string Role { get; set; }
-        [Required(ErrorMessage = "Created Date is required!")]
+        [Required(ErrorMessage = "Created Date must not be empty!")]
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; }
-
         [Display(Name = "Status")]
         public bool IsDeleted { get; set; }
 
