@@ -46,6 +46,7 @@ namespace GsmsRazor.Pages
             HttpContext.Session.Clear();
             return RedirectToPage("/Login");
         }
+
         public async Task<IActionResult> OnPost()
         {
             Console.WriteLine(Username);

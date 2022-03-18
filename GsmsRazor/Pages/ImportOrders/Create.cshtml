@@ -1,0 +1,228 @@
+﻿@page
+@model GsmsRazor.Pages.ImportOrders.CreateModel
+@using BusinessObjectLibrary;
+@using SessionUtil;
+@{
+    ViewData["Title"] = "Create new Import Order";
+    List<ImportOrderDetail> importOrderCart = HttpContext.Session.GetData<List<ImportOrderDetail>>("ImportOrderCart");
+}
+
+<h1>Create</h1>
+
+<h4>Import Order</h4>
+@Html.AntiForgeryToken()
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                    <label asp-for="ImportOrder.Id" class="control-label"></label>
+                    <input asp-for="ImportOrder.Id" class="form-control" />
+                    <span asp-validation-for="ImportOrder.Id" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="ImportOrder.Name" class="control-label"></label>
+                <input asp-for="ImportOrder.Name" class="form-control" />
+                <span asp-validation-for="ImportOrder.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImportOrder.StoreId" class="control-label"></label>
+                <select asp-for="ImportOrder.StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
+            </div>
+            @*<div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ImportOrder.IsDeleted" /> @Html.DisplayNameFor(model => model.ImportOrder.IsDeleted)
+                    </label>
+                </div>*@
+            @*<div class="form-group">
+                <label asp-for="ImportOrder.CreatedDate" class="control-label"></label>
+                <input asp-for="ImportOrder.CreatedDate" class="form-control" />
+                <span asp-validation-for="ImportOrder.CreatedDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <h5>Import Order Items</h5>
+        <hr />
+        <table class="table table-bordered table-hover">
+            <thead class="">
+                <tr class="">
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImportOrder.ImportOrderDetails.ToList()[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImportOrder.ImportOrderDetails.ToList()[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImportOrder.ImportOrderDetails.ToList()[0].Quantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImportOrder.ImportOrderDetails.ToList()[0].Distributor)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="importOrderDetailsBody">
+                @if (importOrderCart != null && importOrderCart.Count > 0)
+                {
+                    @foreach (ImportOrderDetail cartItem in importOrderCart)
+                    {
+                        <tr>
+                            <td>@cartItem.Name</td>
+                            <td>
+                                <input class="form-control" type="number"
+                                       min=0 max=79228162514264337593543950335
+                                       data-productid="@cartItem.ProductId"
+                                       name="iodPrice" value="@cartItem.Price" />
+                            </td>
+                            <td>
+                                <input class="form-control" type="number"
+                                       min=0 max=2147483647
+                                       data-productid="@cartItem.ProductId"
+                                       name="iodQuantity" value="@cartItem.Quantity" />
+                            </td>
+                            <td>
+                                <input class="form-control" type="text"
+                                       data-productid="@cartItem.ProductId"
+                                       name="iodDistributor" value="@cartItem.Distributor" />
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <button data-productid=@cartItem.ProductId name="btnSaveIOD"
+                                            class="btn btn-success text-white col-md-6"
+                                            onclick="saveCartItem('@cartItem.ProductId')">
+                                        <i class="fa-solid fa-floppy-disk"></i>
+                                    </button>
+                                    <button data-productid=@cartItem.ProductId name="btnDeleteIOD"
+                                            class="btn btn-outline-danger col-md-6"
+                                            onclick="removeFromCart('@cartItem.ProductId')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <h4>Products</h4>
+    <hr />
+    @if (Model.Products.Count == 0)
+    {
+        <span>No products!!</span>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr class="text-white">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].CategoryId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].StoredQuantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].ExpiringDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Status)
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StoredQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpiringDate)
+                        </td>
+                        <td>
+                            @if (item.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
+                            {
+                                <span class="badge badge-danger p-2 ">Out of stock</span>
+                            }
+                            else if (item.Status == BusinessObjectLibrary.Status.ALMOST_OUT_OF_STOCK)
+                            {
+                                <span class="badge badge-warning p-2">Almost out of stock</span>
+                            }
+                            else if (item.Status == BusinessObjectLibrary.Status.BEST_SELLER)
+                            {
+                                <span class="badge badge-success p-2">Best seller</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-primary p-2">Available</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-outline-secondary"
+                                            name="btnAddToImportOrder"
+                                            data-productid="@item.Id">
+                                        <i class="fa-solid fa-cart-arrow-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <div>
+        <p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>
+        <div class="row">
+            <div class="col-12" id="paging">
+                @for (int i = 1; i <= int.Parse(ViewData["PageCount"].ToString()); i++)
+                {
+                    int pageNumber = int.Parse(ViewData["PageNumber"].ToString());
+                    string className = "btn mr-1 " +
+                            (pageNumber == i ? "btn-dark" : "btn-outline-dark");
+                    <a class=@className asp-page="./Create"
+                       asp-route-searchString="@ViewData["Search"]"
+                       asp-route-sPage="@i">@i</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/js/import-orders/create.js"></script>

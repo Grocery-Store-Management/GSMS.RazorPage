@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GsmsRazor</title>
+    <title>@ViewData["Title"] - GSMS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -18,21 +18,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />
+    @*<link rel="stylesheet" href="@(nameof(GsmsRazor)).styles.css" />*@
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/">GsmsRazor</a>
+                <a class="navbar-brand" asp-area="" asp-page="./">GSMS</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between mr-sm-2">
                     <ul class="navbar-nav ml-auto">
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
@@ -41,21 +40,25 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Sale">Sales</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/QR">QR</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Report">Report</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Employees/Index">Employee</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/ImportOrders/Index">Import Orders</a>
+                            </li>
                             <li class="nav-item ml-4">
-                                <form method="post" asp-page="/Login" asp-page-handler="Logout">
-                                    <button type="submit" class="btn btn-link">Logout</button>
-                                </form>
+                                @*<form method="post" asp-page="/Login" asp-page-handler="Logout">
+                    <button type="submit" class="btn btn-link">Logout</button>
+                </form>*@
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
                             </li>
                         }
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") == null)
+                        @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
@@ -110,50 +113,50 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
-        function toggleNotes(){
-            if($("#notesDiv").css("visibility") == "hidden"){
+        function toggleNotes() {
+            if ($("#notesDiv").css("visibility") == "hidden") {
                 $("#notesDiv").css("visibility", "visible")
-            }else{
+            } else {
                 $("#notesDiv").css("visibility", "hidden")
             }
         }
-            function addNote(event){
-                event.preventDefault();
-        $("#btnPost").prop('disabled', true);
-                var content = event.target[0].value;
-                 $.ajax({
+        function addNote(event) {
+            event.preventDefault();
+            $("#btnPost").prop('disabled', true);
+            var content = event.target[0].value;
+            $.ajax({
                 url: `/Dashboard?handler=AddNote`,
                 method: "POST",
                 beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
-                $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-                data: {content : content},
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: { content: content },
                 success: (result) => {
                 }, error: (error) => {
                     console.log(error)
                 }
             });
-            }
+        }
 
-            function deleteNote(event){
-                event.preventDefault();
-                $("#btnPost").prop('disabled', true);
-                var content = event.target[0].value;
-                 $.ajax({
+        function deleteNote(event) {
+            event.preventDefault();
+            $("#btnPost").prop('disabled', true);
+            var content = event.target[0].value;
+            $.ajax({
                 url: `/Dashboard?handler=RemoveNote`,
                 method: "POST",
                 beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
-                $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-                data: {noteId : content},
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: { noteId: content },
                 success: (result) => {
                 }, error: (error) => {
                     console.log(error)
                 }
             });
-            }
+        }
     </script>
 
 </body>

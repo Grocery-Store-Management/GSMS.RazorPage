@@ -71,9 +71,9 @@
                                     <td>@product.Name</td>
                                     <td>@product.Price</td>
                                     @{
-                                        if (product.Status == 1)
+                                        if (product.Status == BusinessObjectLibrary.Status.AVAILABLE)
                                         {
-                                            <td><span class="badge badge-success p-2" style="font-size:15px">Available</span></td>
+                                            <td><span class="badge badge-primary p-2">Available</span></td>
                                             <td>
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
@@ -81,13 +81,23 @@
                                                 </a>
                                             </td>
                                         }
-                                        else if (product.Status == 2)
+                                        else if (product.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
                                         {
-                                            <td><span class="badge badge-danger p-2" style="font-size:15px">Out of stock</span></td>
+                                            <td><span class="badge badge-danger p-2">Out of stock</span></td>
                                         }
-                                        else if (product.Status == 3)
+                                        else if (product.Status == BusinessObjectLibrary.Status.ALMOST_OUT_OF_STOCK)
                                         {
-                                            <td><span class="badge badge-warning p-2" style="font-size:15px">Almost out of stock</span></td>
+                                            <td><span class="badge badge-warning p-2">Almost out of stock</span></td>
+                                            <td>
+                                                <input type="hidden" value="@product.Id" class="ProductId" />
+                                                <a class="btn btn-outline-warning AddToCart">
+                                                    <i class="fa-solid fa-basket-shopping"></i>
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge badge-success p-2">Best seller</span></td>
                                             <td>
                                                 <input type="hidden" value="@product.Id" class="ProductId" />
                                                 <a class="btn btn-outline-warning AddToCart">
@@ -109,8 +119,8 @@
                     {
                         <li class="page-item @(i == ViewBag.currentPage ? "active" : "")">
                             <a asp-page="/Sale"
-                       asp-route-pageIndex="@i"
-                       asp-route-searchString="@ViewBag.searchString" class="page-link">@i</a>
+                               asp-route-pageIndex="@i"
+                               asp-route-searchString="@ViewBag.searchString" class="page-link">@i</a>
                         </li>
                     }
                 </ul>
@@ -174,7 +184,7 @@
                                         <td>@item.ProductName</td>
                                         <td>
                                             <input onchange="QuantityChange('@item.ProductId', this)"
-                                           class="CartItemQuantity" style="width:50px" min="1" type="number" value="@item.Quantity" />
+                                                   class="CartItemQuantity" style="width:50px" min="1" type="number" value="@item.Quantity" />
                                             <input type="hidden" value="@item.ProductId" class="CartItemProductId" />
                                         </td>
                                         <td>

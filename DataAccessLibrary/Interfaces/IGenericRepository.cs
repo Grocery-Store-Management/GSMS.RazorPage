@@ -19,6 +19,13 @@ namespace DataAccessLibrary.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
 
         /// <summary>
+        /// Get List of entities
+        /// </summary>
+        /// <param name="otherEntities">Include other entities</param>
+        /// <returns></returns>
+        Task<IEnumerable<T>> GetAllAsync(params string[] otherEntities);
+
+        /// <summary>
         /// Add new entity to database
         /// </summary>
         /// <param name="entity">Entity to be added</param>

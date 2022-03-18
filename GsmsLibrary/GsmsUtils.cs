@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace GsmsLibrary
 {
@@ -50,6 +55,30 @@ namespace GsmsLibrary
             }
 
             return list;
+        }
+
+        public static bool IsEmployee(ClaimsPrincipal user)
+        {
+            return user.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role))
+                .Value.Equals("Employee");
+        }
+
+        public static async Task<T> ConvertRequestBody<T>(HttpRequest request)
+        {
+            T result = default(T);
+            MemoryStream stream = new MemoryStream();
+            await request.Body.CopyToAsync(stream);
+            stream.Position = 0;
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string requestBody = await reader.ReadToEndAsync();
+                if (requestBody.Length > 0)
+                {
+                    result = JsonConvert.DeserializeObject<T>(requestBody);
+                }
+            }
+            return result;
         }
     }
 }
