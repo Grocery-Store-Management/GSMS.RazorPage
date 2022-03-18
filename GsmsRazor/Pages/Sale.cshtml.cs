@@ -52,7 +52,7 @@ namespace GsmsRazor.Pages
                 return Page();
             }
 
-            Customer.Id = new Guid().ToString();
+            Customer.Id = Guid.NewGuid().ToString();
             Customer.CreatedDate = DateTime.Now;
 
             await _customerEntity.AddAsync(Customer);
