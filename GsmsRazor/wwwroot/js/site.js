@@ -25,10 +25,10 @@
                     li += `<li class="list-group-item col-col-md-6">
                     <form class="row" onsubmit="return deleteNote(event)">
                         <input type="hidden" value=${v.id} />
-                        <div class="col col-md-6">
+                        <div class="col col-md-8">
                             ${v.senderName} says: ${v.content}
                         </div>
-                        <input type="submit" value="Cancel" class="btn btn-danger col col-md-3 ml-3" />
+                        <input type="submit" value="Cancel" class="btn btn-danger col col-md-3 ml-4" />
                     </form>
                 </li>`
                 })
