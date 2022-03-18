@@ -6,9 +6,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome, @HttpContext.Session.GetString("NAME").</h1>
-    
+    @if (@HttpContext.Session.GetString("NAME") != null)
+    {
+        <h1 class="display-4">Welcome, @HttpContext.Session.GetString("NAME").</h1>
 
+    }
+    @if (@HttpContext.Session.GetString("NAME") == null)
+    {
+        <h1 class="display-4 mt-5">Welcome to GSMS.</h1>
+        <p class="mt-4">Please login to do amazing things.</p>
+        <form method="get" asp-page="/Login">
+            <button type="submit" class="btn btn-outline-success mt-2">
+                LOGIN HERE
+            </button>
+        </form>
+    }
 </div>
 
 

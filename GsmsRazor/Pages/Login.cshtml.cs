@@ -37,11 +37,13 @@ namespace GsmsRazor.Pages
         public async Task<IActionResult> OnGetLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
             return RedirectToPage("/Login");
         }
         public async Task<IActionResult> OnPostLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
             return RedirectToPage("/Login");
         }
         public async Task<IActionResult> OnPost()

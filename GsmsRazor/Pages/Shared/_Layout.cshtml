@@ -67,28 +67,31 @@
         </nav>
     </header>
     <div class="container col col-md-12">
-        <div class="fixed-bottom pop-chat" style="z-index: 100;">
+        <div class="fixed-bottom pop-chat" style="max-width: 30vw;">
             @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != null)
             {
                 <div id="notesDiv" 
-                     class="col col-md-3" 
-                     style="max-width:40vw; max-height:60vh; overflow: auto; visibility: hidden">
-                    <ul id="dashboard" class="list-group"></ul>
+                     class="col col-md-6 position-relative" 
+                     style="max-width: 30vw; visibility: hidden; z-index: 100">
+                    <ul id="dashboard" 
+                        class="list-group" style="max-width: 30vw; max-height:50vh; overflow: auto;">
+                    </ul>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <form method="post" class="row" onsubmit="return addNote(event)">
-                                <input name="content" type="text" class="col col-md-6" />
+                                <input name="content" type="text" class="col col-md-8" />
                                 <input id="btnPost" type="submit" value="Post" class="btn btn-primary col col-md-3 ml-3" />
                             </form>
                         </li>
                     </ul>
                 </div>
+                <button id="btnShow" 
+                        class="btn btn-primary col-md-4 ml-3 mb-3 position-relative"
+                        style="z-index: 100;"
+                        onclick="return toggleNotes()">
+                    Show Notes
+                </button>
             }
-            <button id="btnShow" 
-                    class="btn btn-primary col-md-1 ml-3 mb-3" 
-                    onclick="return toggleNotes()">
-                Show Notes
-            </button>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col col-md-9">
@@ -100,7 +103,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container w-100 d-flex justify-content-end">
             &copy; 2022 - GsmsRazor - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
