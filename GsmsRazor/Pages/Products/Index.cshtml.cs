@@ -43,7 +43,7 @@ namespace GsmsRazor.Pages.Products
             //        p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
             //}
 
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNumber = (sPage ?? 1);
             Products = (await _products.GetProductsAsync(null,
                 searchString, null, pageNumber, pageSize))
