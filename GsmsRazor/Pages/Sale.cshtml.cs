@@ -11,6 +11,8 @@ using BusinessObjectLibrary;
 using BusinessObjectLibrary.ViewModel;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
+using GSMS.API.PRM;
+using GSMS.API.PRM.Models;
 using GsmsLibrary;
 using GsmsRazor.Server;
 using GsmsRazor.SessionUtil;
@@ -31,14 +33,17 @@ namespace GsmsRazor.Pages
         private readonly ReceiptBusinessEntity _receiptEntity;
         private readonly CustomerBusinessEntity _customerEntity;
         private SignalRHub _hub;
-        private const int pageSize = 10;
+        private const int pageSize = 5;
+        private readonly INotificationService _notificationService;
 
-        public SaleModel(IUnitOfWork work, IHubContext<SignalRHub> contextR)
+        public SaleModel(IUnitOfWork work, IHubContext<SignalRHub> contextR, INotificationService notificationService)
         {
             _productEntity = new ProductBusinessEntity(work);
             _receiptEntity = new ReceiptBusinessEntity(work);
             _customerEntity = new CustomerBusinessEntity(work);
             _hub = new SignalRHub(contextR);
+            _notificationService = notificationService;
+
         }
 
 
@@ -208,7 +213,6 @@ namespace GsmsRazor.Pages
 
             List<CartItem> cart = null;
             cart = HttpContext.Session.GetData<List<CartItem>>("CART");
-            Receipt addedReceipt = null;
             string encodedBytes = "";
 
             //Save Receipt
@@ -233,7 +237,18 @@ namespace GsmsRazor.Pages
                         EmployeeId = HttpContext.Session.GetString("UID"),
                         ReceiptDetails = receiptDetails
                     };
-                    addedReceipt = await _receiptEntity.AddReceiptAsync(receipt);
+                    Product prod = await _receiptEntity.AddReceiptAsync(receipt);
+                    if (prod.StoredQuantity < 20)
+                    {
+                        NotificationModel noti = new NotificationModel();
+                        noti.DeviceId = "crY1ZWBBTFad7iE5BSPnOY:APA91bHWbVkQxBMN182wqZP8tB7opaZHt1DxyDX9CSEhcDQRyK1jNKrGk9KPnhjoQ6DYI-wNhj4aGZwVnk5ghWwV33ywB8FvFD4lhcMewk9clQ0yTEHo0b6E52LWBiTKOaEej6WGq77g";
+                        noti.Title = "Warning";
+                        noti.Body = prod.Name + "only has " + prod.StoredQuantity + " left! Please get more! ";
+
+                        noti.IsAndroiodDevice = true;
+                        ResponseModel res = await _notificationService.SendNotification(noti);
+                        Debug.WriteLine(res.ToString());
+                    }
                 }
                 else
                 {

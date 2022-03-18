@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace DataAccessLibrary.BusinessEntity
 {
     public class ReceiptBusinessEntity
@@ -20,7 +19,7 @@ namespace DataAccessLibrary.BusinessEntity
             Store store = await work.Stores.GetAsync(newReceipt.StoreId);
             if (store == null)
             {
-                throw new Exception("Store is not existed!");
+                throw new Exception("Store does not exist");
             }
             newReceipt.Id = GsmsUtils.CreateGuiId();
             newReceipt.CreatedDate = DateTime.Now;
@@ -33,16 +32,17 @@ namespace DataAccessLibrary.BusinessEntity
                     Product product = await work.Products.GetAsync(receiptDetail.ProductId);
                     if (product == null || product.IsDeleted == true)
                     {
-                        throw new Exception("Product is not existed!");
+                        throw new Exception("Product does not exist");
                     }
                     if (receiptDetail.Quantity > product.StoredQuantity)
                     {
                         throw new Exception($"Purchase of {product.Name} exceed stored quantity ({product.StoredQuantity})!!");
                     }
-                    if(receiptDetail.Quantity == product.StoredQuantity)
+                    if (receiptDetail.Quantity == product.StoredQuantity)
                     {
                         product.Status = Status.OUT_OF_STOCK;
-                    } else if(product.StoredQuantity - receiptDetail.Quantity < 10 && product.StoredQuantity - receiptDetail.Quantity > 0)
+                    }
+                    else if (product.StoredQuantity - receiptDetail.Quantity < 10 && product.StoredQuantity - receiptDetail.Quantity > 0)
                     {
                         product.Status = Status.ALMOST_OUT_OF_STOCK;
                         //product.Status = 3; //almost out of stock
