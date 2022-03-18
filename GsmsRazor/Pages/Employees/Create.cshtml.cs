@@ -54,7 +54,7 @@ namespace GsmsRazor.Pages.Employees
             };
 
             await _employeeEntity.AddEmployeeAsync(employee);
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { CreateMessage = "Success"});
         }
     }
 
