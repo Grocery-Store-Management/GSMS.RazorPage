@@ -21,6 +21,12 @@ namespace DataAccessLibrary.BusinessEntity
             return products;
         }
 
+        public async Task<IEnumerable<Product>> GetActiveProductsAsync()
+        {
+            IEnumerable<Product> products = await work.Products.GetAllAsync();
+            return products.Where(p => !p.IsDeleted);
+        }
+
         public async Task<IEnumerable<Product>> GetProductsAsync(
             string categoryId,
             string searchByName,

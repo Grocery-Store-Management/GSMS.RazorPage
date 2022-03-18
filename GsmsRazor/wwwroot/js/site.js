@@ -46,7 +46,7 @@
         toastr.success('Points updated!', "Success");
 
         setTimeout(() => {
-            window.location.replace("/Sale")
+            $("#btnClosePoints").click();
         }, 1500);
     }
 

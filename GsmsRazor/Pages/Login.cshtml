@@ -5,35 +5,42 @@
 }
 <link rel="stylesheet" href="./css/Login.css" />
 
-<div class="col-md-12 p-2 d-flex justify-content-center">
-    <div class="col col-md-4 p-2">
+<div class="col-lg-12 p-2 d-flex justify-content-center">
+    <div class="col-md-8 p-2">
         <h1 class="col-md-12 text-lg-center mb-3">
             Welcome to GSMS
         </h1>
         <div class="col-md-12 text-lg-center mb-3 font-weight-bold">Login via</div>
 
-        <form class="form" method="post" asp-page="Login" accept-charset="UTF-8">
-            <div class="form-group">
-                <label class="sr-only" asp-for="@Model.Username">Username</label>
-                <input type="text" asp-for="@Model.Username" class="form-control" placeholder="Username">
-                <span class="text-danger" asp-validation-for="@Model.Username"></span>
-            </div>
-            <div class="form-group">
-                <label class="sr-only" asp-for="@Model.Password">Password</label>
-                <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
-                <span class="text-danger" asp-validation-for="@Model.Password"></span>
-
-            </div>
-            @if (ViewData["Error"] != null)
-            {
+        <div class="col-md-12 d-flex justify-content-center align-content-center">
+            <form class="form col-md-8" method="post" asp-page="Login" accept-charset="UTF-8">
                 <div class="form-group">
-                    <span class="text-danger">@ViewData["Error"]</span>
+                    <label class="sr-only" asp-for="@Model.Username">Username</label>
+                    <input type="text" asp-for="@Model.Username" class="form-control" placeholder="Username">
+                    @*@if (ViewData["Error"] == null)
+                    {
+                        <span class="text-danger" asp-validation-for="@Model.Username"></span>
+                    }*@
                 </div>
-            }
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="sr-only" asp-for="@Model.Password">Password</label>
+                    <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
+                    @*@if (ViewData["Error"] == null)
+                    {
+                        <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                    }*@
+                </div>
+                @if (ViewData["Error"] != null)
+                {
+                    <div class="form-group">
+                        <span class="text-danger">@ViewData["Error"]</span>
+                    </div>
+                }
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-login">Sign in</button>
+                </div>
+            </form>
+        </div>
         <div class="col-md-12 text-lg-center mt-5 mb-3 font-weight-bold">or</div>
         <div class="social-buttons col-md-12 text-lg-center">
             <a href="#" class="btn btn-gg pl-lg-4 pr-lg-4 mr-3">

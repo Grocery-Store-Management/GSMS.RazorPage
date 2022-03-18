@@ -18,8 +18,9 @@ namespace BusinessObjectLibrary
         [Required]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone number")]
-        [RegularExpression("$[0-9]{8,12}^", ErrorMessage ="Valid phone numbers are from 8 to 12 numbers only")]
+        [RegularExpression("[0-9]{8,10}", ErrorMessage ="Valid phone numbers are from 8 to 10 numbers only")]
         public string PhoneNumber { get; set; }
+        [Required]
         public string Password { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }

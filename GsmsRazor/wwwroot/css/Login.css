@@ -1,6 +1,25 @@
 ﻿body {
 }
 
+.btn-trans {
+    transition: .3s;
+}
+
+.btn-login {
+    color: #fff;
+    background-color: #3AAA58;
+    font-weight: 500;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    transition: .3s;
+}
+.btn-login:hover {
+    color: #3AAA58;
+    background-color: #fff;
+    border: 1px solid #3AAA58;
+}
+
 .btn-fb {
     color: #fff;
     background-color: #3b5998;
