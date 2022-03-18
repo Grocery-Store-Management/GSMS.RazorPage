@@ -83,7 +83,7 @@
         </li>
         <li class="mb-2">
             Order Total:
-            <span class="badge badge-primary p-2">@Model.ImportOrder.ImportOrderDetails.Sum(iod => iod.Price).ToString("0.0")</span>
+            <span class="badge badge-primary p-2">@Model.ImportOrder.ImportOrderDetails.Sum(iod => iod.Price * iod.Quantity).ToString("0.0")</span>
         </li>
     </ul>
 </div>
