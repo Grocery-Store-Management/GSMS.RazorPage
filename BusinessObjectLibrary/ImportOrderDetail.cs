@@ -10,14 +10,14 @@ namespace BusinessObjectLibrary
         public string OrderId { get; set; }
 
         [Display(Name = "Product Name")]
-        [Required(ErrorMessage = "Product name is required!!")]
+        [Required(ErrorMessage = "Product name must not be empty")]
         [RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Product name contains invalid characters!!")]
         [MinLength(6, ErrorMessage = "Product name is required at least 6 characters!!!")]
         [MaxLength(32, ErrorMessage = "Product name is limited to 32 characters!!")]
         public string Name { get; set; }
 
         [Display(Name = "Distributor")]
-        [Required(ErrorMessage = "Distributor is required!!")]
+        [Required(ErrorMessage = "Distributor must not be empty")]
         //[RegularExpression(@"^[^@#$%^*()\[\]{}]+$", ErrorMessage = "Distributor contains invalid characters!!")]
         //[MinLength(6, ErrorMessage = "Distributor is required at least 6 characters!!!")]
         //[MaxLength(32, ErrorMessage = "Distributor is limited to 32 characters!!")]
@@ -29,8 +29,8 @@ namespace BusinessObjectLibrary
         public int Quantity { get; set; }
         public bool IsDeleted { get; set; }
 
-        [Required(ErrorMessage = "Price is required!!")]
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must be a positive number!!")]
+        [Required(ErrorMessage = "Price must not be empty")]
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Price must not be greater than 0")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0.0}")]
         public decimal Price { get; set; }
 

@@ -135,11 +135,19 @@
 
 <div class="chart-container" width="500" height="400" style="margin-bottom: 70px">
     <h5 style="color:#36A2EB">Daily revenue of @ViewBag.reportMonth/@ViewBag.reportYear</h5>
+    <form method="post">
+        <input type="hidden" name="exportMonth" value="@ViewBag.reportMonth" />
+        <input type="hidden" name="exportYear" value="@ViewBag.reportYear" />
+        <input class="btn btn-outline-primary" type="submit" value="Export" asp-page-handler="ExportRevenue" />
+    </form>
     <canvas id="revenueChart"></canvas>
 </div>
 
 <div class="chart-container" width="500" height="400">
     <h5 style="color:#FF4069">Product Report</h5>
+    <form method="post">
+        <input class="btn btn-outline-danger" type="submit" value="Export" asp-page-handler="ExportProduct" />
+    </form>
     <canvas id="productChart"></canvas>
 </div>
 
