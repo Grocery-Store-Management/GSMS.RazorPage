@@ -55,5 +55,5 @@
                 $("#createCategoryModal").find("form").find("span").text(error);
             }
         });
-    })
+    });
 });

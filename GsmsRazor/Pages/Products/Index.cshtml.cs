@@ -7,12 +7,14 @@ using BusinessObjectLibrary;
 using DataAccessLibrary.BusinessEntity;
 using DataAccessLibrary.Interfaces;
 using GsmsLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GsmsRazor.Pages.Products
 {
+    [Authorize(Roles = "Store Owner")]
     public class ProductIndexModel : PageModel
     {
         private readonly ProductBusinessEntity _products;
@@ -32,24 +34,28 @@ namespace GsmsRazor.Pages.Products
             IEnumerable<Category> categories = await _categories.GetCategoriesAsync();
             ViewData["CategoryId"] = (new SelectList(categories, "Id", "Name"))
                 .Append(new SelectListItem("Add new category", "addNewCategory"));
-            Products = (await _products.GetAllProductsAsync()).ToList();
-            
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                ViewData["Search"] = searchString;
-                Products = Products.Where(
-                    p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
-            }
+            //Products = (await _products.GetAllProductsAsync()).ToList();
 
-            int pageSize = 10;
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    ViewData["Search"] = searchString;
+            //    Products = Products.Where(
+            //        p => p.Name.ToLower().Contains(searchString.ToLower().Trim())).ToList();
+            //}
+
+            int pageSize = 5;
             int pageNumber = (sPage ?? 1);
-            int pageCount = (int)Math.Ceiling((decimal)Products.Count / pageSize);
+            Products = (await _products.GetProductsAsync(null,
+                searchString, null, pageNumber, pageSize))
+                .ToList();
+
+            int pageCount = (int)Math.Ceiling((decimal)(await _products.GetAllProductsAsync()).Count() / pageSize);
 
             ViewData["PageNumber"] = pageNumber;
             ViewData["PageCount"] = pageCount;
 
-            Products = Products.Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).ToList();
+            //Products = Products.Skip((pageNumber - 1) * pageSize)
+            //    .Take(pageSize).ToList();
         }
 
         [BindProperty]

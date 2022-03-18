@@ -37,7 +37,7 @@ namespace GsmsRazor.Pages
 
 
     }
-    [Authorize(Roles = "Customer, Cashier, Store Owner")]
+    [Authorize(Roles = "Cashier, Store Owner")]
     public class DashboardModel : PageModel
     {
         public IEnumerable<Note> notes;

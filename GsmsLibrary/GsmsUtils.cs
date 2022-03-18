@@ -57,11 +57,11 @@ namespace GsmsLibrary
             return list;
         }
 
-        public static bool IsEmployee(ClaimsPrincipal user)
+        public static bool IsStoreOwner(ClaimsPrincipal user)
         {
             return user.Claims
                 .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role))
-                .Value.Equals("Employee");
+                .Value.Equals("Store Owner");
         }
 
         public static async Task<T> ConvertRequestBody<T>(HttpRequest request)

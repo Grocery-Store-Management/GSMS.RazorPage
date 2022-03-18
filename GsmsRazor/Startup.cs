@@ -49,6 +49,7 @@ namespace GsmsRazor
                     config.Cookie.Name = "GSMSUserLoginCookie";
                     config.LoginPath = "/";
                     config.LogoutPath = "/Logout";
+                    config.AccessDeniedPath = "/Error";
                     config.ExpireTimeSpan = TimeSpan.FromHours(1);
                 });
         }

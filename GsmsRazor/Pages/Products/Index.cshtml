@@ -8,24 +8,33 @@
 
 <partial name="./Modals/_CreateModal" />
 
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <form asp-action="Index" method="get">
-            <label for="searchString" class="d-inline control-label">Search: </label>
-            <div class="row">
-                <div class="form-group col-md-8">
-                    <input id="searchString" name="searchString"
-                           class="d-inline form-control" value="@ViewData["Search"]" />
-                </div>
-                <div class="btn-block col-md-4">
-                    <div class="form-group">
-                        <input type="submit" value="Search" class="btn btn-outline-success" />
-                    </div>
+<div class="row mb-4">
+    <div>
+        <form asp-action="Index" method="get" class="m-2">
+            <div class="input-group" style="width:400px">
+                <input id="searchString" name="searchString"
+                       type="text" class="form-control" 
+                       placeholder="Enter Name to search ..." 
+                       value="@ViewData["Search"]">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </div>
             </div>
         </form>
     </div>
+
+    <div class="ml-auto">
+        <div class="m-2">
+            <button type="button" class="btn btn-outline-primary mb-3"
+                    data-toggle="modal" data-target="#createProductModal">
+                <i class="fa-solid fa-circle-plus"></i> Create new Product
+            </button>
+        </div>
+    </div>
 </div>
+
 <table class="table table-bordered table-hover">
     <thead class="thead-dark">
         <tr class="text-white">
@@ -60,16 +69,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
-                <td>
+                <td class="text-right">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="text-right">
                     @Html.DisplayFor(modelItem => item.StoredQuantity)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ExpiringDate)
                 </td>
-                <td>
+                <td class="text-center">
                     @if (item.Status == BusinessObjectLibrary.Status.OUT_OF_STOCK)
                     {
                         <span class="badge badge-danger p-2 ">Out of stock</span>
@@ -88,16 +97,12 @@
                     }
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-danger" href=""
+                    <div class="w-75 btn-group" role="group">
+                            <a class="btn btn-primary mx-1 rounded" asp-page="./Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-outline-danger mx-1 rounded" href=""
                                     data-toggle="popover" data-action="delete" data-deleteId="@item.Id">
-                                Delete
+                                <i class="fas fa-trash-can"></i>
                             </button>
-                        </div>
                     </div>
                 </td>
 
@@ -106,7 +111,7 @@
     </tbody>
 </table>
 <div>
-    <p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>
+    @*<p>Page @(int.Parse(ViewData["PageCount"].ToString()) == 0 ? 0 : ViewData["PageNumber"]) of @ViewData["PageCount"]</p>*@
     <div class="row">
         <div class="col-12" id="paging">
             @for (int i = 1; i <= int.Parse(ViewData["PageCount"].ToString()); i++)
@@ -152,10 +157,10 @@
 `
             }
         });
-        $("[data-toggle='popover'][data-action='delete']").on('click', (e) => {
-            $("[data-toggle='popover'][data-action='delete']")
-                .not(e.target).popover('hide');
-        });
+        //$("[data-toggle='popover'][data-action='delete']").on('click', (e) => {
+        //    $("[data-toggle='popover'][data-action='delete']")
+        //        .not(e.target).popover('hide');
+        //});
     });
 </script>
 
