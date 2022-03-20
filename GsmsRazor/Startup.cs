@@ -43,6 +43,10 @@ namespace GsmsRazor
 
             services.AddMemoryCache();
 
+            services.AddAuthorization(options =>
+                options.AddPolicy("ACTIVE", policy => policy.RequireClaim("ACTIVE", "True"))
+            );
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(config =>
                 {

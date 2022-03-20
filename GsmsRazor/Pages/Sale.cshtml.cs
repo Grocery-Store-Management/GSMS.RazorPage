@@ -27,6 +27,7 @@ using QRCoder;
 namespace GsmsRazor.Pages
 {
     [Authorize(Roles = "Cashier, Store Owner")]
+    [Authorize(Policy = "ACTIVE")]
     public class SaleModel : PageModel
     {
         private readonly ProductBusinessEntity _productEntity;

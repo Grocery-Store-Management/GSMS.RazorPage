@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -63,7 +64,8 @@ namespace GsmsRazor.Pages
                 var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Role, _emp.Role),
-                        new Claim("ID", _emp.Id)
+                        new Claim("ID", _emp.Id),
+                        new Claim("ACTIVE", (!_emp.IsDeleted).ToString())
                     };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -84,6 +86,8 @@ namespace GsmsRazor.Pages
                 HttpContext.Session.SetString("NAME", _emp.Name);
                 HttpContext.Session.SetString("STORE_ID", _emp.StoreId);
                 HttpContext.Session.SetString("ROLE", _emp.Role);
+
+
 
                 return RedirectToPage("./Index");
             }
