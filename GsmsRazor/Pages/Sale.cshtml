@@ -10,12 +10,12 @@
 
 <div class="col-md-12 d-flex justify-content-center align-items-center flex-column">
     <div class="row ml-5">
-        <div class="col-md-4 offset-md-4 modal fade in" id="customerModal" tabindex="-1" role="dialog">
+        <div class="col-md-4 offset-md-4 modal fade in" id="customerModal" tabindex="-1" role="dialog" style="z-index:2000;">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Registration</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button onclick="return closeRegModel(event)" type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -24,6 +24,7 @@
                             <label asp-for="Customer.PhoneNumber" class="control-label"></label>
                             <input id="txtPhone" asp-for="Customer.PhoneNumber" class="form-control" />
                             <span class="text-danger" id="phoneNumberValidation" asp-validation-for="Customer.PhoneNumber"></span>
+                            <span id='alreadyRegistered' class="text-danger">@TempData["RegErr"]</span>
                         </div>
                         <div class="form-group col col-md-10">
                             <label asp-for="Customer.Password" class="control-label"></label>
@@ -40,7 +41,6 @@
             </div>
         </div>
     </div>
-    <div class="text-danger">@TempData["RegError"]</div>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row col-md-12">
         <div class="col col-md-7">
@@ -57,7 +57,7 @@
                     Register an account
                 </button>
             </div>
-            
+
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr class="text-white">
@@ -125,8 +125,8 @@
                     {
                         <li class="page-item @(i == ViewBag.currentPage ? "active" : "")">
                             <a asp-page="/Sale"
-                               asp-route-pageIndex="@i"
-                               asp-route-searchString="@ViewBag.searchString" class="page-link">@i</a>
+                       asp-route-pageIndex="@i"
+                       asp-route-searchString="@ViewBag.searchString" class="page-link">@i</a>
                         </li>
                     }
                 </ul>
@@ -190,7 +190,7 @@
                                         <td>@item.ProductName</td>
                                         <td>
                                             <input onchange="QuantityChange('@item.ProductId', this)"
-                                                   class="CartItemQuantity" style="width:50px" min="1" type="number" value="@item.Quantity" />
+                                           class="CartItemQuantity" style="width:50px" min="1" type="number" value="@item.Quantity" />
                                             <input type="hidden" value="@item.ProductId" class="CartItemProductId" />
                                         </td>
                                         <td>
@@ -234,6 +234,15 @@
                      style="max-height:60vh;max-width:60vw;" />
 
                 </div>
+                @if (ViewBag.QRType != null && ViewBag.QRType.Equals("Accumulate"))
+                {
+                    <button type="button"
+                    class="btn btn-outline-success mb-4 ml-auto mr-auto"
+                    data-toggle="modal"
+                    data-target="#customerModal">
+                        Register an account
+                    </button>
+                }
             </div>
         </div>
     </div>
@@ -261,10 +270,13 @@
     var dataToSend = form.serialize();
     $.post(actionUrl, dataToSend).done(function (data) {
         var isValid = $(data).find("#IsValid").val();
-        if(isValid.toString() === "True"){
+        if(isValid.toString() === "True" && $(data).find("#alreadyRegistered").html() != "This phone number has already been registered!"){
             $("#customerModal").modal('toggle');
-            $("#txtPhoneNumber").text("");
-            $("#txtPassword").text("");
+            $("#txtPhone").val("");
+            $("#txtPassword").val("");
+            $("#alreadyRegistered").text("");
+            $("#phoneNumberValidation").text("");
+            $("#passwordValidation").text("");
             toastr.options.showEasing = 'swing';
         toastr.success('Account registered!', "Success");
         }else{
@@ -272,6 +284,14 @@
         $("#customerForm").replaceWith(newBody)
         }
     });
+    }
+    function closeRegModel(e){
+        $("#customerModal").modal('toggle');
+            $("#txtPhone").val("");
+            $("#txtPassword").val("");
+            $("#alreadyRegistered").text("");
+            $("#phoneNumberValidation").text("");
+            $("#passwordValidation").text("");
     }
 </script>
 }

@@ -13,8 +13,8 @@
         <form asp-action="Index" method="get" class="m-2">
             <div class="input-group" style="width:400px">
                 <input id="searchString" name="searchString"
-                       type="text" class="form-control" 
-                       placeholder="Enter Name to search ..." 
+                       type="text" class="form-control"
+                       placeholder="Enter Name to search ..."
                        value="@ViewData["Search"]">
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">
@@ -98,11 +98,11 @@
                 </td>
                 <td>
                     <div class="w-75 btn-group" role="group">
-                            <a class="btn btn-primary mx-1 rounded" asp-page="./Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-outline-danger mx-1 rounded" href=""
-                                    data-toggle="popover" data-action="delete" data-deleteId="@item.Id">
-                                <i class="fas fa-trash-can"></i>
-                            </button>
+                        <a class="btn btn-primary mx-1 rounded " asp-page="./Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-outline-danger mx-1 rounded closeable" href=""
+                            data-toggle="popover" data-action="delete" data-deleteId="@item.Id">
+                            <i class="fas fa-trash-can"></i>
+                        </button>
                     </div>
                 </td>
 
@@ -115,57 +115,60 @@
     <div class="row">
         <div class="col-12" id="paging">
             @for (int i = 1; i <= int.Parse(ViewData["PageCount"].ToString()); i++)
-                {
-                    int pageNumber = int.Parse(ViewData["PageNumber"].ToString());
-                    string className = "btn mr-1 " +
-                            (pageNumber == i ? "btn-dark" : "btn-outline-dark");
-                    <a class=@className asp-page="./Index"
-                       asp-route-searchString="@ViewData["Search"]"
-                       asp-route-sPage="@i">@i</a>
-                }
+            {
+                int pageNumber = int.Parse(ViewData["PageNumber"].ToString());
+                string className = "btn mr-1 " +
+                (pageNumber == i ? "btn-dark" : "btn-outline-dark");
+                <a class=@className asp-page="./Index"
+               asp-route-searchString="@ViewData["Search"]"
+               asp-route-sPage="@i">@i</a>
+            }
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
 
 @*<script src="~/js/products/deletepopover.js"></script>*@
 <script>
-    $(() => {
-        $("[data-toggle='popover'][data-action='delete']").popover({
-            container: 'body',
-            title: 'Delete Product',
-            html: true,
-            placement: 'top',
-            sanitize: false,
-            content: function (e) {
-                var deleteId = $(this).data("deleteid");
-                return `
-<div>
-    <div>
-        Are you sure that you want to delete this product?
-    </div>
-    <form method="post" class="d-inline" action="/Products?handler=Delete">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="deletedProductId" value="${deleteId}" />
-        <input type="submit" class="btn btn-outline-danger btn-sm" value="Delete" />
-    </form>
-    <button class="btn btn-light btn-sm" onclick="$(this).parents('.popover').popover('hide')">Cancel</button>
-</div>
-`
-            }
-        });
-        //$("[data-toggle='popover'][data-action='delete']").on('click', (e) => {
-        //    $("[data-toggle='popover'][data-action='delete']")
-        //        .not(e.target).popover('hide');
-        //});
-    });
+            $(() => {
+
+                $("[data-toggle='popover'][data-action='delete']").on('click', (e) => {
+      $(".closeable").popover('hide')
+                });
+
+      $("[data-toggle='popover'][data-action='delete']").popover({
+                    container: 'body',
+                    title: 'Delete Product',
+                    html: true,
+                    placement: 'top',
+                    sanitize: false,
+                    content: function (e) {
+                        var deleteId = $(this).data("deleteid");
+                        return `
+        <div id="popoverDiv">
+            <div>
+                Are you sure that you want to delete this product?
+            </div>
+            <form method="post" class="d-inline" action="/Products?handler=Delete">
+    @Html.AntiForgeryToken()
+                <input type="hidden" name="deletedProductId" value="${deleteId}" />
+                <input type="submit" class="btn btn-outline-danger btn-sm" value="Delete" />
+            </form>
+            <button class="btn btn-light btn-sm" onclick="$(this).parents('.popover').popover('hide')">Cancel</button>
+        </div>
+        `
+                    }
+                });
+            });
 </script>
 
 @if (TempData["CreateProductSuccessfully"] != null &&
-  (bool)TempData["CreateProductSuccessfully"] == true)
+(bool)TempData["CreateProductSuccessfully"] == true)
 {
     <script>
         toastr.options.showEasing = 'swing';
@@ -174,7 +177,7 @@
 }
 
 @if (TempData["DeleteProductSuccessfully"] != null &&
-  (bool)TempData["DeleteProductSuccessfully"] == true)
+(bool)TempData["DeleteProductSuccessfully"] == true)
 {
     <script>
         toastr.options.showEasing = 'swing';
@@ -183,7 +186,7 @@
 }
 
 @if (TempData["UpdateProductSuccessfully"] != null &&
-  (bool)TempData["UpdateProductSuccessfully"] == true)
+(bool)TempData["UpdateProductSuccessfully"] == true)
 {
     <script>
         toastr.options.showEasing = 'swing';

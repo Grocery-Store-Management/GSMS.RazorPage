@@ -52,10 +52,17 @@ namespace GsmsRazor.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            TempData["RegErr"] = "";
+            if (await _customerEntity.CheckExists(Customer) == true)
+            {
+                TempData["RegErr"] = "This phone number has already been registered!";
+                return Page();
+            }
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            
 
             Customer.Id = Guid.NewGuid().ToString();
             Customer.CreatedDate = DateTime.Now;
