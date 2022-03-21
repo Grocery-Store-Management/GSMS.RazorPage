@@ -92,9 +92,9 @@ namespace GsmsRazor.Pages
             {
                 totalProfit = totalRevenue - totalExpenditure;
             }
-            ViewData["totalRevenue"] = string.Format("{0:0}", totalRevenue);
-            ViewData["totalExpenditure"] = string.Format("{0:0}", totalExpenditure);
-            ViewData["totalProfit"] = string.Format("{0:0}", totalProfit);
+            ViewData["totalRevenue"] = string.Format("{0:n0}", totalRevenue);
+            ViewData["totalExpenditure"] = string.Format("{0:n0}", totalExpenditure);
+            ViewData["totalProfit"] = string.Format("{0:n0}", totalProfit);
 
             //Current month daily revenue (Bar chart)
             int days = DateTime.DaysInMonth(reportYear.Value, reportMonth.Value);
